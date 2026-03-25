@@ -4,12 +4,12 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     # App
-    app_name: str = "PajakAI"
+    app_name: str = "Pajakia"
     debug: bool = False
     api_prefix: str = "/api/v1"
 
     # Database
-    database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/pajakai"
+    database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/pajakia"
     redis_url: str = "redis://localhost:6379/0"
 
     # Auth
@@ -25,14 +25,14 @@ class Settings(BaseSettings):
     # WhatsApp (Meta Cloud API)
     whatsapp_token: str = ""
     whatsapp_phone_number_id: str = ""
-    whatsapp_verify_token: str = "pajakai-webhook-verify"
+    whatsapp_verify_token: str = "pajakia-webhook-verify"
     whatsapp_app_secret: str = ""
 
     # OpenAI
     openai_api_key: str = ""
 
     # S3 / Document Storage
-    s3_bucket: str = "pajakai-documents"
+    s3_bucket: str = "pajakia-documents"
     s3_region: str = "ap-southeast-1"
     aws_access_key_id: str = ""
     aws_secret_access_key: str = ""

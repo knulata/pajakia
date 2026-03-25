@@ -1,4 +1,4 @@
-# PajakAI - Indonesian Tax Preparation Platform
+# Pajakia - Indonesian Tax Preparation Platform
 # Core
 fastapi==0.115.6
 uvicorn[standard]==0.34.0

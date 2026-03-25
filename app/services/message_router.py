@@ -21,7 +21,7 @@ STATE_REVIEWING_DATA = "reviewing_data"
 
 
 WELCOME_MESSAGE = (
-    "Halo! Selamat datang di PajakAI 🇮🇩\n\n"
+    "Halo! Selamat datang di Pajakia 🇮🇩\n\n"
     "Saya asisten pajak digital Anda. Saya bisa membantu:\n\n"
     "📄 Siapkan SPT Tahunan\n"
     "📸 Scan bukti potong\n"
@@ -274,7 +274,7 @@ async def _get_or_create_user(
 
     if not user:
         user = User(
-            email=f"{phone}@wa.pajakai.id",  # Placeholder until they register
+            email=f"{phone}@wa.pajakia.com",  # Placeholder until they register
             name=name or f"WA User {phone[-4:]}",
             phone=phone,
             whatsapp_id=phone,

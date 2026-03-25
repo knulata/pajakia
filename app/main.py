@@ -1,4 +1,4 @@
-"""PajakAI — Indonesian Tax Preparation Platform."""
+"""Pajakia — Indonesian Tax Preparation Platform."""
 
 import logging
 

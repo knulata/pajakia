@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PajakAI — Asisten Pajak Cerdas Indonesia",
+  title: "Pajakia — Asisten Pajak Cerdas Indonesia",
   description:
     "Hitung PPh 21, siapkan SPT, scan bukti potong — semua dengan bantuan AI. Gratis untuk individu.",
   openGraph: {
-    title: "PajakAI — Asisten Pajak Cerdas Indonesia",
+    title: "Pajakia — Asisten Pajak Cerdas Indonesia",
     description: "Hitung pajak, siapkan SPT, scan dokumen. Gratis.",
     type: "website",
   },

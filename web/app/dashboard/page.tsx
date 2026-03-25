@@ -40,7 +40,7 @@ export default function DashboardPage() {
       <nav className="sticky top-0 z-50 border-b border-[var(--border)] bg-white/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link href="/" className="text-2xl font-extrabold text-[var(--primary)]">
-            PajakAI
+            Pajakia
           </Link>
           <div className="flex items-center gap-4">
             <Link
@@ -166,7 +166,7 @@ export default function DashboardPage() {
                 </p>
               </Link>
               <Link
-                href="https://wa.me/628131102445?text=Halo%20PajakAI%2C%20saya%20mau%20siapkan%20SPT"
+                href="https://wa.me/628131102445?text=Halo%20Pajakia%2C%20saya%20mau%20siapkan%20SPT"
                 className="rounded-xl border border-[var(--border)] bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="mb-2 text-2xl">💬</div>

@@ -1,4 +1,4 @@
-"""Basic smoke tests for PajakAI."""
+"""Basic smoke tests for Pajakia."""
 
 import pytest
 from httpx import AsyncClient, ASGITransport
@@ -18,7 +18,7 @@ async def test_root(client):
     resp = await client.get("/")
     assert resp.status_code == 200
     data = resp.json()
-    assert data["app"] == "PajakAI"
+    assert data["app"] == "Pajakia"
     assert data["status"] == "running"
 
 
@@ -36,7 +36,7 @@ async def test_webhook_verify(client):
         params={
             "hub.mode": "subscribe",
             "hub.challenge": "12345",
-            "hub.verify_token": "pajakai-webhook-verify",
+            "hub.verify_token": "pajakia-webhook-verify",
         },
     )
     assert resp.status_code == 200

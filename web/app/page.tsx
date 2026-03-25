@@ -19,7 +19,7 @@ const features = [
     icon: "💬",
     title: "Asisten WhatsApp",
     desc: "Kirim foto dokumen pajak ke WhatsApp. Kami proses, Anda tinggal review dan file.",
-    href: "https://wa.me/628131102445?text=Halo%20PajakAI",
+    href: "https://wa.me/628131102445?text=Halo%20Pajakia",
     cta: "Chat di WhatsApp",
   },
 ];
@@ -38,7 +38,7 @@ export default function Home() {
       <nav className="sticky top-0 z-50 border-b border-[var(--border)] bg-white/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link href="/" className="text-2xl font-extrabold text-[var(--primary)]">
-            PajakAI
+            Pajakia
           </Link>
           <div className="flex items-center gap-6">
             <Link
@@ -81,7 +81,7 @@ export default function Home() {
               Hitung Pajak Gratis
             </Link>
             <Link
-              href="https://wa.me/628131102445?text=Halo%20PajakAI"
+              href="https://wa.me/628131102445?text=Halo%20Pajakia"
               className="rounded-xl border-2 border-[var(--border)] px-8 py-4 text-lg font-bold text-[var(--text)] hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all"
             >
               💬 Chat WhatsApp
@@ -165,7 +165,7 @@ export default function Home() {
             </div>
             <div className="mt-8">
               <Link
-                href="https://wa.me/628131102445?text=Saya%20konsultan%20pajak%2C%20tertarik%20dengan%20PajakAI"
+                href="https://wa.me/628131102445?text=Saya%20konsultan%20pajak%2C%20tertarik%20dengan%20Pajakia"
                 className="rounded-xl bg-[var(--accent)] px-8 py-4 text-lg font-bold text-white hover:bg-emerald-700 transition-colors inline-block"
               >
                 Hubungi Kami
@@ -269,14 +269,14 @@ export default function Home() {
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div>
               <div className="text-xl font-extrabold text-[var(--primary)]">
-                PajakAI
+                Pajakia
               </div>
               <div className="mt-1 text-sm text-[var(--text-secondary)]">
                 Asisten pajak cerdas untuk Indonesia
               </div>
             </div>
             <div className="text-sm text-[var(--text-secondary)]">
-              © {new Date().getFullYear()} PajakAI. Bukan pengganti konsultan pajak berlisensi.
+              © {new Date().getFullYear()} Pajakia. Bukan pengganti konsultan pajak berlisensi.
             </div>
           </div>
         </div>
