@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import get_settings
-from app.routers import auth, webhook, filings, tax
+from app.routers import auth, webhook, filings, tax, spt, consultant
 
 logging.basicConfig(
     level=logging.INFO,
@@ -34,6 +34,8 @@ app.include_router(auth.router, prefix=settings.api_prefix)
 app.include_router(webhook.router, prefix=settings.api_prefix)
 app.include_router(filings.router, prefix=settings.api_prefix)
 app.include_router(tax.router, prefix=settings.api_prefix)
+app.include_router(spt.router, prefix=settings.api_prefix)
+app.include_router(consultant.router, prefix=settings.api_prefix)
 
 
 @app.get("/")

@@ -48,6 +48,12 @@ export default function Home() {
               Kalkulator
             </Link>
             <Link
+              href="/konsultan"
+              className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text)]"
+            >
+              Konsultan
+            </Link>
+            <Link
               href="/dashboard"
               className="rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--primary-dark)]"
             >
