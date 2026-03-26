@@ -25,7 +25,7 @@ function WaImageBubble({ time }: { time: string }) {
     <div className="flex justify-end mt-3">
       <div className="relative max-w-[75%] rounded-lg overflow-hidden bg-[#d9fdd3] shadow-sm">
         {/* Fake document image */}
-        <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-4" style={{ width: 220, height: 160 }}>
+        <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-3" style={{ width: 180, height: 100 }}>
           <div className="rounded bg-white p-3 shadow-sm" style={{ transform: "rotate(-2deg)" }}>
             <div className="mb-2 h-2 w-20 rounded bg-gray-800"></div>
             <div className="mb-3 text-[8px] font-bold text-gray-700">BUKTI PEMOTONGAN PPh 21</div>
@@ -45,16 +45,16 @@ function WaImageBubble({ time }: { time: string }) {
   );
 }
 
-function WaPhoneMockup({ children, label }: { children: React.ReactNode; label?: string }) {
+function WaPhoneMockup({ children, label, compact }: { children: React.ReactNode; label?: string; compact?: boolean }) {
   return (
     <div className="flex flex-col items-center">
       {label && <div className="mb-3 text-sm font-semibold text-[var(--text-secondary)]">{label}</div>}
-      <div className="w-[320px] overflow-hidden rounded-[2rem] border-[6px] border-gray-800 bg-[#efeae2] shadow-2xl">
+      <div className="w-[300px] overflow-hidden rounded-[2rem] border-[6px] border-gray-800 bg-[#efeae2] shadow-2xl" style={{ maxHeight: compact ? 520 : 580 }}>
         {/* Status bar */}
         <div className="flex items-center justify-between bg-[#008069] px-4 py-2 text-white">
           <div className="flex items-center gap-2">
             <span className="text-sm">←</span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-xs font-bold">P</div>
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-xs font-bold">P</div>
             <div>
               <div className="text-sm font-semibold">Pajakia</div>
               <div className="text-[10px] opacity-80">online</div>
@@ -63,7 +63,7 @@ function WaPhoneMockup({ children, label }: { children: React.ReactNode; label?:
           <div className="flex gap-3 text-sm">📞 ⋮</div>
         </div>
         {/* Chat area */}
-        <div className="px-3 py-2" style={{ minHeight: 380, backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4cfc6' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }}>
+        <div className="px-3 py-2" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4cfc6' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }}>
           {children}
         </div>
         {/* Input bar */}
@@ -146,18 +146,12 @@ export default function Home() {
 
           {/* Right: WhatsApp Mockup */}
           <div className="flex justify-center">
-            <WaPhoneMockup>
-              <WaChatBubble from="client" time="09:01">
-                Halo, mau proses bukti potong
-              </WaChatBubble>
+            <WaPhoneMockup compact>
+              <WaImageBubble time="09:01" />
               <WaChatBubble from="pajakia" time="09:01">
-                Halo! Langsung kirim foto bukti potongnya ya 📸
+                📸 Foto diterima! Memproses...
               </WaChatBubble>
-              <WaImageBubble time="09:02" />
-              <WaChatBubble from="pajakia" time="09:02">
-                📸 Foto diterima! Sedang diproses AI...
-              </WaChatBubble>
-              <WaChatBubble from="pajakia" time="09:02" tail>
+              <WaChatBubble from="pajakia" time="09:01" tail>
                 <div>
                   <div className="font-semibold">✅ Bukti Potong berhasil dibaca!</div>
                   <div className="mt-1.5 space-y-0.5 text-[12px]">
@@ -165,10 +159,9 @@ export default function Home() {
                     <div>🏢 PT Maju Bersama</div>
                     <div>💰 Bruto: <b>Rp 180.000.000</b></div>
                     <div>📊 PPh 21: <b>Rp 7.200.000</b></div>
-                    <div>📅 Masa: 01-12 / 2025</div>
                   </div>
                   <div className="mt-1.5 text-[11px] text-[#667781]">
-                    Data tersimpan. Konsultan Anda akan review.
+                    Data tersimpan ✅
                   </div>
                 </div>
               </WaChatBubble>
