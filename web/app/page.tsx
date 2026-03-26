@@ -1,18 +1,20 @@
 import Link from "next/link";
 
-/* ── WhatsApp Chat Mockup Component ── */
+/* ── WhatsApp Chat Mockup Components ── */
+const WA_BG_PATTERN = "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4cfc6' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")";
+
 function WaChatBubble({ from, children, time, tail }: { from: "client" | "pajakia"; children: React.ReactNode; time: string; tail?: boolean }) {
   const isClient = from === "client";
   return (
-    <div className={`flex ${isClient ? "justify-end" : "justify-start"} ${tail ? "mt-1" : "mt-3"}`}>
-      <div className={`relative max-w-[85%] rounded-lg px-3 py-2 text-[13px] leading-relaxed shadow-sm ${
+    <div className={`flex ${isClient ? "justify-end" : "justify-start"} ${tail ? "mt-1" : "mt-2"}`}>
+      <div className={`relative max-w-[85%] rounded-lg px-2.5 py-1.5 text-[12px] leading-snug shadow-sm ${
         isClient ? "bg-[#d9fdd3] text-[#111b21]" : "bg-white text-[#111b21]"
       }`}>
         {!isClient && !tail && (
-          <div className="mb-0.5 text-[12px] font-semibold text-[#1a56db]">Pajakia AI</div>
+          <div className="mb-0.5 text-[11px] font-semibold text-[#1a56db]">Pajakia AI</div>
         )}
         <div>{children}</div>
-        <div className={`mt-1 text-right text-[10px] text-[#667781] ${isClient ? "" : ""}`}>
+        <div className="mt-0.5 text-right text-[9px] text-[#667781]">
           {time} {isClient && <span className="ml-0.5 text-[#53bdeb]">✓✓</span>}
         </div>
       </div>
@@ -22,22 +24,19 @@ function WaChatBubble({ from, children, time, tail }: { from: "client" | "pajaki
 
 function WaImageBubble({ time }: { time: string }) {
   return (
-    <div className="flex justify-end mt-3">
-      <div className="relative max-w-[75%] rounded-lg overflow-hidden bg-[#d9fdd3] shadow-sm">
-        {/* Fake document image */}
-        <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-3" style={{ width: 180, height: 100 }}>
-          <div className="rounded bg-white p-3 shadow-sm" style={{ transform: "rotate(-2deg)" }}>
-            <div className="mb-2 h-2 w-20 rounded bg-gray-800"></div>
-            <div className="mb-3 text-[8px] font-bold text-gray-700">BUKTI PEMOTONGAN PPh 21</div>
-            <div className="space-y-1">
-              <div className="flex gap-2"><div className="h-1.5 w-12 rounded bg-gray-300"></div><div className="h-1.5 w-16 rounded bg-gray-400"></div></div>
-              <div className="flex gap-2"><div className="h-1.5 w-14 rounded bg-gray-300"></div><div className="h-1.5 w-10 rounded bg-gray-400"></div></div>
-              <div className="flex gap-2"><div className="h-1.5 w-10 rounded bg-gray-300"></div><div className="h-1.5 w-20 rounded bg-blue-300"></div></div>
-              <div className="flex gap-2"><div className="h-1.5 w-16 rounded bg-gray-300"></div><div className="h-1.5 w-12 rounded bg-green-300"></div></div>
+    <div className="flex justify-end mt-2">
+      <div className="relative rounded-lg overflow-hidden bg-[#d9fdd3] shadow-sm">
+        <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-2" style={{ width: 150, height: 80 }}>
+          <div className="rounded bg-white p-2 shadow-sm" style={{ transform: "rotate(-1deg)" }}>
+            <div className="mb-1 h-1.5 w-16 rounded bg-gray-800"></div>
+            <div className="mb-1.5 text-[6px] font-bold text-gray-600">BUKTI PEMOTONGAN PPh 21</div>
+            <div className="space-y-0.5">
+              <div className="flex gap-1"><div className="h-1 w-10 rounded bg-gray-300"></div><div className="h-1 w-12 rounded bg-gray-400"></div></div>
+              <div className="flex gap-1"><div className="h-1 w-8 rounded bg-gray-300"></div><div className="h-1 w-14 rounded bg-blue-300"></div></div>
             </div>
           </div>
         </div>
-        <div className="px-3 py-1 text-right text-[10px] text-[#667781]">
+        <div className="px-2 py-0.5 text-right text-[9px] text-[#667781]">
           {time} <span className="ml-0.5 text-[#53bdeb]">✓✓</span>
         </div>
       </div>
@@ -45,33 +44,50 @@ function WaImageBubble({ time }: { time: string }) {
   );
 }
 
-function WaPhoneMockup({ children, label, compact }: { children: React.ReactNode; label?: string; compact?: boolean }) {
+/** Fixed-height WhatsApp phone — consistent 480px across all instances */
+function WaPhoneMockup({ children, label }: { children: React.ReactNode; label?: string }) {
   return (
     <div className="flex flex-col items-center">
-      {label && <div className="mb-3 text-sm font-semibold text-[var(--text-secondary)]">{label}</div>}
-      <div className="w-[300px] overflow-hidden rounded-[2rem] border-[6px] border-gray-800 bg-[#efeae2] shadow-2xl" style={{ maxHeight: compact ? 520 : 580 }}>
-        {/* Status bar */}
-        <div className="flex items-center justify-between bg-[#008069] px-4 py-2 text-white">
+      {label && <div className="mb-2 text-sm font-semibold text-[var(--text-secondary)]">{label}</div>}
+      <div className="flex w-[280px] flex-col overflow-hidden rounded-[1.75rem] border-[5px] border-gray-800 shadow-2xl" style={{ height: 480 }}>
+        {/* Header — fixed */}
+        <div className="flex items-center justify-between bg-[#008069] px-3 py-1.5 text-white flex-shrink-0">
           <div className="flex items-center gap-2">
-            <span className="text-sm">←</span>
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-xs font-bold">P</div>
+            <span className="text-xs">←</span>
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 text-[10px] font-bold">P</div>
             <div>
-              <div className="text-sm font-semibold">Pajakia</div>
-              <div className="text-[10px] opacity-80">online</div>
+              <div className="text-xs font-semibold">Pajakia</div>
+              <div className="text-[8px] opacity-80">online</div>
             </div>
           </div>
-          <div className="flex gap-3 text-sm">📞 ⋮</div>
+          <div className="flex gap-2 text-xs">📞 ⋮</div>
         </div>
-        {/* Chat area */}
-        <div className="px-3 py-2" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4cfc6' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }}>
+        {/* Chat area — fills remaining space, hides overflow */}
+        <div className="flex-1 overflow-hidden px-2.5 py-2 bg-[#efeae2]" style={{ backgroundImage: WA_BG_PATTERN }}>
           {children}
         </div>
-        {/* Input bar */}
-        <div className="flex items-center gap-2 bg-[#f0f2f5] px-3 py-2">
-          <span className="text-lg">😊</span>
-          <span className="text-lg">📎</span>
-          <div className="flex-1 rounded-full bg-white px-3 py-1.5 text-xs text-gray-400">Ketik pesan</div>
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#008069] text-sm text-white">🎤</div>
+        {/* Input bar — fixed */}
+        <div className="flex items-center gap-1.5 bg-[#f0f2f5] px-2.5 py-1.5 flex-shrink-0">
+          <span className="text-sm">😊</span>
+          <span className="text-sm">📎</span>
+          <div className="flex-1 rounded-full bg-white px-2.5 py-1 text-[10px] text-gray-400">Ketik pesan</div>
+          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#008069] text-[10px] text-white">🎤</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Small phone for the 3-step section — fixed 280px height */
+function MiniPhoneMockup({ headerText, headerColor, children }: { headerText: string; headerColor: string; children: React.ReactNode }) {
+  return (
+    <div className="mx-auto w-[200px]">
+      <div className="flex flex-col overflow-hidden rounded-2xl border-[4px] border-gray-800 shadow-xl" style={{ height: 220 }}>
+        <div className={`${headerColor} px-3 py-1 text-left text-[9px] font-semibold text-white flex-shrink-0`}>
+          {headerText}
+        </div>
+        <div className="flex-1 overflow-hidden bg-[#efeae2]" style={{ backgroundImage: headerColor.includes("primary") ? "none" : WA_BG_PATTERN, backgroundColor: headerColor.includes("primary") ? "white" : undefined }}>
+          {children}
         </div>
       </div>
     </div>
@@ -146,7 +162,7 @@ export default function Home() {
 
           {/* Right: WhatsApp Mockup */}
           <div className="flex justify-center">
-            <WaPhoneMockup compact>
+            <WaPhoneMockup>
               <WaImageBubble time="09:01" />
               <WaChatBubble from="pajakia" time="09:01">
                 📸 Foto diterima! Memproses...
@@ -255,20 +271,19 @@ export default function Home() {
         <div className="grid gap-12 md:grid-cols-3">
           {/* Step 1 */}
           <div className="text-center">
-            <div className="mx-auto mb-6 w-[220px]">
-              <div className="overflow-hidden rounded-2xl border-4 border-gray-800 bg-[#efeae2] shadow-xl">
-                <div className="bg-[#008069] px-3 py-1.5 text-left text-[10px] font-semibold text-white">Pajakia</div>
+            <div className="mb-6">
+              <MiniPhoneMockup headerText="Pajakia" headerColor="bg-[#008069]">
                 <div className="space-y-1.5 px-2 py-2">
                   <div className="flex justify-end">
                     <div className="rounded-lg bg-[#d9fdd3] px-2 py-1">
-                      <div className="h-16 w-24 rounded bg-gray-200 flex items-center justify-center text-[8px] text-gray-400">📸 foto</div>
+                      <div className="h-12 w-20 rounded bg-gray-200 flex items-center justify-center text-[7px] text-gray-400">📸 foto</div>
                     </div>
                   </div>
                   <div className="flex justify-start">
-                    <div className="rounded-lg bg-white px-2 py-1 text-[9px]">📸 Diterima! Memproses...</div>
+                    <div className="rounded-lg bg-white px-2 py-1 text-[8px]">📸 Diterima! Memproses...</div>
                   </div>
                 </div>
-              </div>
+              </MiniPhoneMockup>
             </div>
             <div className="mb-2 flex items-center justify-center gap-2">
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#25D366] text-sm font-bold text-white">1</span>
@@ -281,14 +296,13 @@ export default function Home() {
 
           {/* Step 2 */}
           <div className="text-center">
-            <div className="mx-auto mb-6 w-[220px]">
-              <div className="overflow-hidden rounded-2xl border-4 border-gray-800 bg-[#efeae2] shadow-xl">
-                <div className="bg-[#008069] px-3 py-1.5 text-left text-[10px] font-semibold text-white">Pajakia</div>
+            <div className="mb-6">
+              <MiniPhoneMockup headerText="Pajakia" headerColor="bg-[#008069]">
                 <div className="space-y-1.5 px-2 py-2">
                   <div className="flex justify-start">
                     <div className="rounded-lg bg-white px-2 py-1">
-                      <div className="text-[9px] font-semibold">✅ Berhasil dibaca!</div>
-                      <div className="mt-0.5 text-[8px] text-gray-600">
+                      <div className="text-[8px] font-semibold">✅ Berhasil dibaca!</div>
+                      <div className="mt-0.5 text-[7px] text-gray-600">
                         👤 Andi Wijaya<br/>
                         💰 Rp 180.000.000<br/>
                         📊 PPh: Rp 7.200.000
@@ -296,12 +310,12 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="flex justify-start">
-                    <div className="rounded-lg bg-white px-2 py-1 text-[8px]">
+                    <div className="rounded-lg bg-white px-2 py-1 text-[7px]">
                       <span className="text-green-600 font-bold">Confidence: 95%</span>
                     </div>
                   </div>
                 </div>
-              </div>
+              </MiniPhoneMockup>
             </div>
             <div className="mb-2 flex items-center justify-center gap-2">
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--primary)] text-sm font-bold text-white">2</span>
@@ -314,25 +328,24 @@ export default function Home() {
 
           {/* Step 3 */}
           <div className="text-center">
-            <div className="mx-auto mb-6 w-[220px]">
-              <div className="overflow-hidden rounded-2xl border-4 border-gray-800 bg-white shadow-xl">
-                <div className="bg-[var(--primary)] px-3 py-1.5 text-left text-[10px] font-semibold text-white">Dashboard Konsultan</div>
-                <div className="p-2">
-                  <div className="mb-1 flex items-center justify-between">
+            <div className="mb-6">
+              <MiniPhoneMockup headerText="Dashboard Konsultan" headerColor="bg-[var(--primary)]">
+                <div className="p-2.5 bg-white h-full">
+                  <div className="mb-1.5 flex items-center justify-between">
                     <div className="text-[8px] font-bold">Andi Wijaya</div>
                     <div className="rounded bg-green-100 px-1 text-[7px] font-bold text-green-700">95%</div>
                   </div>
-                  <div className="space-y-0.5">
+                  <div className="space-y-1">
                     <div className="flex justify-between text-[7px]"><span className="text-gray-500">Bruto</span><span className="font-semibold">180.000.000</span></div>
                     <div className="flex justify-between text-[7px]"><span className="text-gray-500">PPh 21</span><span className="font-semibold">7.200.000</span></div>
                     <div className="flex justify-between text-[7px]"><span className="text-gray-500">PTKP</span><span className="font-semibold">TK/0</span></div>
                   </div>
-                  <div className="mt-1.5 flex gap-1">
+                  <div className="mt-2 flex gap-1">
                     <div className="flex-1 rounded bg-green-500 py-0.5 text-center text-[7px] font-bold text-white">Verifikasi</div>
                     <div className="flex-1 rounded bg-gray-200 py-0.5 text-center text-[7px] font-bold text-gray-600">Edit</div>
                   </div>
                 </div>
-              </div>
+              </MiniPhoneMockup>
             </div>
             <div className="mb-2 flex items-center justify-center gap-2">
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)] text-sm font-bold text-white">3</span>
