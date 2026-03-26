@@ -14,7 +14,7 @@ from app.models.client import Client
 from app.models.document import Document, DocumentType, DocumentStatus
 from app.models.consent import ClientConsent, ConsentType, ConsentStatus
 from app.models.audit_log import AuditLog
-from app.services.document_store import upload_to_store
+from app.services.document_store import store_document
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/portal", tags=["portal"])
@@ -81,7 +81,7 @@ async def portal_upload_document(
         db.add(shadow_user)
         await db.flush()
         client.user_id = shadow_user.id
-    file_url = await upload_to_store(content=content, user_id=client.user_id, file_name=file.filename or "upload", content_type=file.content_type or "application/octet-stream")
+    file_url = await store_document(content=content, filename=file.filename or "upload", user_id=client.user_id, mime_type=file.content_type or "application/octet-stream")
     doc = Document(
         user_id=client.user_id,
         doc_type=DocumentType(doc_type) if doc_type in [e.value for e in DocumentType] else DocumentType.OTHER,
