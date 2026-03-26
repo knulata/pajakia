@@ -6,9 +6,13 @@ import { usePathname } from "next/navigation";
 const navItems = [
   { href: "/konsultan", label: "Dashboard", icon: "📊" },
   { href: "/konsultan/klien", label: "Klien", icon: "👥" },
+  { href: "/konsultan/board", label: "Filing Board", icon: "📋" },
   { href: "/konsultan/deadline", label: "Deadline", icon: "📅" },
+  { href: "/konsultan/dokumen", label: "Dokumen", icon: "📄" },
+  { href: "/konsultan/invoice", label: "Invoice", icon: "💰" },
   { href: "/konsultan/batch", label: "Batch", icon: "⚡" },
   { href: "/konsultan/analytics", label: "Analitik", icon: "📈" },
+  { href: "/konsultan/keamanan", label: "Keamanan", icon: "🔒" },
 ];
 
 export default function ConsultantLayout({
@@ -20,13 +24,18 @@ export default function ConsultantLayout({
 
   return (
     <div className="min-h-screen bg-[var(--bg)]">
-      {/* Top Nav */}
       <nav className="sticky top-0 z-50 border-b border-[var(--border)] bg-white/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <Link href="/" className="text-2xl font-extrabold text-[var(--primary)]">
             Pajakia
           </Link>
           <div className="flex items-center gap-4">
+            <Link
+              href="/konsultan/activity"
+              className="text-sm text-[var(--text-secondary)] hover:text-[var(--text)]"
+            >
+              Log Aktivitas
+            </Link>
             <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">
               Konsultan
             </span>
@@ -38,7 +47,6 @@ export default function ConsultantLayout({
       </nav>
 
       <div className="mx-auto max-w-7xl px-6 py-6">
-        {/* Tab Nav */}
         <div className="mb-6 flex gap-1 overflow-x-auto rounded-lg bg-gray-100 p-1">
           {navItems.map((item) => {
             const isActive =

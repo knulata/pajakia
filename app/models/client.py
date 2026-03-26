@@ -9,13 +9,13 @@ import enum
 from app.core.database import Base
 
 
-class ClientStatus(str, Enum):
+class ClientStatus(str, enum.Enum):
     ACTIVE = "active"
     INACTIVE = "inactive"
     ONBOARDING = "onboarding"
 
 
-class EntityType(str, Enum):
+class EntityType(str, enum.Enum):
     ORANG_PRIBADI = "orang_pribadi"
     PT = "pt"
     CV = "cv"

@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime, timezone
-from sqlalchemy import String, Boolean, DateTime, Enum as SQLEnum
+from sqlalchemy import String, Boolean, DateTime, Enum as SQLEnum, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 import enum
 
@@ -24,6 +24,7 @@ class User(Base):
     phone: Mapped[str | None] = mapped_column(String(20), index=True)
     whatsapp_id: Mapped[str | None] = mapped_column(String(20), unique=True, index=True)
     npwp: Mapped[str | None] = mapped_column(String(20), index=True)
+    npwp_hash: Mapped[str | None] = mapped_column(String(64), index=True)
     role: Mapped[UserRole] = mapped_column(
         SQLEnum(UserRole), default=UserRole.TAXPAYER
     )
@@ -44,6 +45,16 @@ class User(Base):
     tax_filings: Mapped[list["TaxFiling"]] = relationship(back_populates="user")
 
     # Consultant-specific fields
-    license_number: Mapped[str | None] = mapped_column(String(50))  # No. Izin Praktik
-    license_level: Mapped[str | None] = mapped_column(String(1))  # A, B, or C
+    license_number: Mapped[str | None] = mapped_column(String(50))
+    license_level: Mapped[str | None] = mapped_column(String(1))
     max_clients: Mapped[int | None] = mapped_column()
+
+    # 2FA fields
+    totp_secret: Mapped[str | None] = mapped_column(String(32))
+    totp_enabled: Mapped[bool] = mapped_column(Boolean, default=False)
+    backup_codes: Mapped[list | None] = mapped_column(JSON)
+
+    # Security
+    ip_allowlist: Mapped[list | None] = mapped_column(JSON)
+    last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_login_ip: Mapped[str | None] = mapped_column(String(45))

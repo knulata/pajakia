@@ -29,6 +29,14 @@ boto3==1.36.2
 pydantic-settings==2.7.1
 python-dotenv==1.0.1
 
+# Security / 2FA
+pyotp==2.9.0
+qrcode[pil]==8.0
+cryptography==44.0.0
+
+# CSV/Excel import
+openpyxl==3.1.5
+
 # Dev
 pytest==8.3.4
 pytest-asyncio==0.25.0

@@ -1,4 +1,4 @@
-"""WhatsApp webhook receiver."""
+"""WhatsApp webhook receiver — signature verification mandatory."""
 
 import logging
 
@@ -21,7 +21,6 @@ async def verify_webhook(
     hub_challenge: str = Query(alias="hub.challenge", default=""),
     hub_verify_token: str = Query(alias="hub.verify_token", default=""),
 ):
-    """WhatsApp webhook verification (GET request from Meta)."""
     if hub_mode == "subscribe" and hub_verify_token == settings.whatsapp_verify_token:
         logger.info("WhatsApp webhook verified")
         return int(hub_challenge)
@@ -30,23 +29,19 @@ async def verify_webhook(
 
 @router.post("/whatsapp")
 async def receive_webhook(request: Request, db: AsyncSession = Depends(get_db)):
-    """Receive incoming WhatsApp messages."""
     body = await request.body()
-
-    # Verify signature if app secret is configured
-    if settings.whatsapp_app_secret:
-        signature = request.headers.get("x-hub-signature-256", "")
-        if not verify_webhook_signature(body, signature):
-            raise HTTPException(status_code=403, detail="Invalid signature")
-
+    if not settings.whatsapp_app_secret:
+        logger.error("WHATSAPP_APP_SECRET not configured — rejecting webhook")
+        raise HTTPException(status_code=500, detail="Webhook security not configured")
+    signature = request.headers.get("x-hub-signature-256", "")
+    if not verify_webhook_signature(body, signature):
+        logger.warning("Invalid webhook signature from %s", request.client.host if request.client else "unknown")
+        raise HTTPException(status_code=403, detail="Invalid signature")
     payload = await request.json()
     messages = parse_webhook_payload(payload)
-
     for msg in messages:
         try:
             await route_message(msg, db)
         except Exception:
             logger.exception("Error processing message %s", msg.get("id"))
-
-    # Always return 200 to acknowledge receipt (Meta requirement)
     return {"status": "ok"}

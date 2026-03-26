@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     app_name: str = "Pajakia"
     debug: bool = False
     api_prefix: str = "/api/v1"
+    frontend_url: str = "http://localhost:3000"
 
     # Database
     database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/pajakia"
@@ -15,7 +16,15 @@ class Settings(BaseSettings):
     # Auth
     secret_key: str = "change-me-in-production"
     algorithm: str = "HS256"
-    access_token_expire_minutes: int = 60 * 24 * 7  # 7 days
+    access_token_expire_minutes: int = 15
+    refresh_token_expire_days: int = 30
+
+    # CORS
+    cors_origins: str = "http://localhost:3000"
+
+    # Rate Limiting
+    rate_limit_per_minute: int = 100
+    rate_limit_auth_per_minute: int = 10
 
     # Google OAuth
     google_client_id: str = ""
@@ -36,6 +45,14 @@ class Settings(BaseSettings):
     s3_region: str = "ap-southeast-1"
     aws_access_key_id: str = ""
     aws_secret_access_key: str = ""
+
+    # Security
+    encryption_key: str = ""
+    require_2fa_consultant: bool = True
+    totp_issuer: str = "Pajakia"
+
+    # Compliance
+    data_retention_years: int = 5
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 
