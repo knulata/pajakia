@@ -6,15 +6,15 @@ const WA_BG_PATTERN = "url(\"data:image/svg+xml,%3Csvg width='60' height='60' vi
 function WaChatBubble({ from, children, time, tail }: { from: "client" | "pajakia"; children: React.ReactNode; time: string; tail?: boolean }) {
   const isClient = from === "client";
   return (
-    <div className={`flex ${isClient ? "justify-end" : "justify-start"} ${tail ? "mt-0.5" : "mt-1.5"}`}>
-      <div className={`relative max-w-[88%] rounded-md px-2 py-1 text-[10px] leading-snug shadow-sm ${
+    <div className={`flex ${isClient ? "justify-end" : "justify-start"} ${tail ? "mt-0.5" : "mt-1"}`}>
+      <div className={`relative max-w-[90%] rounded px-1.5 py-1 text-[8px] leading-snug shadow-sm ${
         isClient ? "bg-[#d9fdd3] text-[#111b21]" : "bg-white text-[#111b21]"
       }`}>
         {!isClient && !tail && (
-          <div className="mb-0.5 text-[9px] font-semibold text-[#1a56db]">Pajakia AI</div>
+          <div className="mb-0.5 text-[7px] font-semibold text-[#1a56db]">Pajakia AI</div>
         )}
         <div>{children}</div>
-        <div className="mt-0.5 text-right text-[7px] text-[#667781]">
+        <div className="mt-0.5 text-right text-[6px] text-[#667781]">
           {time} {isClient && <span className="ml-0.5 text-[#53bdeb]">✓✓</span>}
         </div>
       </div>
@@ -24,19 +24,19 @@ function WaChatBubble({ from, children, time, tail }: { from: "client" | "pajaki
 
 function WaImageBubble({ time }: { time: string }) {
   return (
-    <div className="flex justify-end mt-1.5">
-      <div className="relative rounded-md overflow-hidden bg-[#d9fdd3] shadow-sm">
-        <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-1.5" style={{ width: 120, height: 65 }}>
-          <div className="rounded bg-white p-1.5 shadow-sm" style={{ transform: "rotate(-1deg)" }}>
-            <div className="mb-0.5 h-1 w-12 rounded bg-gray-800"></div>
-            <div className="mb-1 text-[5px] font-bold text-gray-600">BUKTI POTONG PPh 21</div>
-            <div className="space-y-0.5">
-              <div className="flex gap-0.5"><div className="h-0.5 w-8 rounded bg-gray-300"></div><div className="h-0.5 w-10 rounded bg-gray-400"></div></div>
-              <div className="flex gap-0.5"><div className="h-0.5 w-6 rounded bg-gray-300"></div><div className="h-0.5 w-10 rounded bg-blue-300"></div></div>
+    <div className="flex justify-end mt-1">
+      <div className="relative rounded overflow-hidden bg-[#d9fdd3] shadow-sm">
+        <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-1" style={{ width: 95, height: 55 }}>
+          <div className="rounded bg-white p-1 shadow-sm" style={{ transform: "rotate(-1deg)" }}>
+            <div className="mb-0.5 h-0.5 w-8 rounded bg-gray-800"></div>
+            <div className="mb-0.5 text-[4px] font-bold text-gray-600">BUKTI POTONG PPh 21</div>
+            <div className="space-y-px">
+              <div className="flex gap-px"><div className="h-px w-6 rounded bg-gray-300"></div><div className="h-px w-8 rounded bg-gray-400"></div></div>
+              <div className="flex gap-px"><div className="h-px w-5 rounded bg-gray-300"></div><div className="h-px w-7 rounded bg-blue-300"></div></div>
             </div>
           </div>
         </div>
-        <div className="px-1.5 py-0.5 text-right text-[7px] text-[#667781]">
+        <div className="px-1 py-px text-right text-[6px] text-[#667781]">
           {time} <span className="ml-0.5 text-[#53bdeb]">✓✓</span>
         </div>
       </div>
@@ -44,45 +44,45 @@ function WaImageBubble({ time }: { time: string }) {
   );
 }
 
-/** Fixed-size WhatsApp phone — 230×500 ratio close to real iPhone (0.46) */
+/** Fixed-size WhatsApp phone — 190×460 real iPhone-like 19.5:9 ratio */
 function WaPhoneMockup({ children, label }: { children: React.ReactNode; label?: string }) {
   return (
     <div className="flex flex-col items-center">
       {label && <div className="mb-2 text-sm font-semibold text-[var(--text-secondary)]">{label}</div>}
-      <div className="flex flex-col overflow-hidden rounded-[2rem] border-[5px] border-gray-800 shadow-2xl" style={{ width: 230, height: 500 }}>
+      <div className="flex flex-col overflow-hidden rounded-[1.8rem] border-[4px] border-gray-900 shadow-2xl" style={{ width: 190, height: 410 }}>
         {/* Header — fixed */}
-        <div className="flex items-center justify-between bg-[#008069] px-3 py-1.5 text-white flex-shrink-0">
-          <div className="flex items-center gap-2">
-            <span className="text-[10px]">←</span>
-            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-[9px] font-bold">P</div>
+        <div className="flex items-center justify-between bg-[#008069] px-2 py-1 text-white flex-shrink-0">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[8px]">←</span>
+            <div className="flex h-4 w-4 items-center justify-center rounded-full bg-white/20 text-[7px] font-bold">P</div>
             <div>
-              <div className="text-[11px] font-semibold leading-tight">Pajakia</div>
-              <div className="text-[7px] opacity-80">online</div>
+              <div className="text-[9px] font-semibold leading-tight">Pajakia</div>
+              <div className="text-[6px] opacity-80">online</div>
             </div>
           </div>
-          <div className="flex gap-1.5 text-[10px]">📞 ⋮</div>
+          <div className="flex gap-1 text-[8px]">📞 ⋮</div>
         </div>
-        {/* Chat area — fills remaining space, hides overflow */}
-        <div className="flex-1 overflow-hidden px-2 py-1.5 bg-[#efeae2]" style={{ backgroundImage: WA_BG_PATTERN }}>
+        {/* Chat area */}
+        <div className="flex-1 overflow-hidden px-1.5 py-1 bg-[#efeae2]" style={{ backgroundImage: WA_BG_PATTERN }}>
           {children}
         </div>
-        {/* Input bar — fixed */}
-        <div className="flex items-center gap-1 bg-[#f0f2f5] px-2 py-1 flex-shrink-0">
-          <span className="text-[11px]">😊</span>
-          <span className="text-[11px]">📎</span>
-          <div className="flex-1 rounded-full bg-white px-2 py-0.5 text-[8px] text-gray-400">Ketik pesan</div>
-          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#008069] text-[9px] text-white">🎤</div>
+        {/* Input bar */}
+        <div className="flex items-center gap-1 bg-[#f0f2f5] px-1.5 py-1 flex-shrink-0">
+          <span className="text-[9px]">😊</span>
+          <span className="text-[9px]">📎</span>
+          <div className="flex-1 rounded-full bg-white px-1.5 py-0.5 text-[7px] text-gray-400">Ketik pesan</div>
+          <div className="flex h-4 w-4 items-center justify-center rounded-full bg-[#008069] text-[7px] text-white">🎤</div>
         </div>
       </div>
     </div>
   );
 }
 
-/** Small phone for the 3-step section — 160×260 ratio matching real phone */
+/** Small phone for the 3-step section — 130×240 slim */
 function MiniPhoneMockup({ headerText, headerColor, children }: { headerText: string; headerColor: string; children: React.ReactNode }) {
   return (
-    <div className="mx-auto" style={{ width: 160 }}>
-      <div className="flex flex-col overflow-hidden rounded-2xl border-[3px] border-gray-800 shadow-xl" style={{ height: 260 }}>
+    <div className="mx-auto" style={{ width: 130 }}>
+      <div className="flex flex-col overflow-hidden rounded-xl border-[3px] border-gray-900 shadow-xl" style={{ height: 240 }}>
         <div className={`${headerColor} px-3 py-1 text-left text-[9px] font-semibold text-white flex-shrink-0`}>
           {headerText}
         </div>
@@ -140,7 +140,7 @@ export default function Home() {
               <span className="text-[var(--primary)]">SPT langsung jadi.</span>
             </h1>
             <p className="mb-8 text-lg text-[var(--text-secondary)]">
-              Klien kirim foto dokumen pajak via WhatsApp. AI baca semua data dalam 10 detik.
+              Klien kirim foto dokumen pajak via WhatsApp. AI baca semua data dalam kurang dari 1 menit.
               Anda tinggal review di dashboard. Tidak perlu input manual. Tidak perlu app baru.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
@@ -249,7 +249,7 @@ export default function Home() {
                 </WaChatBubble>
               </WaPhoneMockup>
               <div className="mt-4 space-y-2 text-sm text-green-700">
-                <div className="flex items-start gap-2"><span>⚡</span> AI proses 10 detik per dokumen</div>
+                <div className="flex items-start gap-2"><span>⚡</span> AI proses kurang dari 1 menit per dokumen</div>
                 <div className="flex items-start gap-2"><span>📊</span> Data langsung masuk dashboard</div>
                 <div className="flex items-start gap-2"><span>😊</span> Klien langsung lihat hasilnya</div>
                 <div className="flex items-start gap-2"><span>✅</span> Akurasi 95%, flagged jika ragu</div>
@@ -325,7 +325,7 @@ export default function Home() {
               <h3 className="text-lg font-bold">AI Baca & Ekstrak</h3>
             </div>
             <p className="text-sm text-[var(--text-secondary)]">
-              Dalam 10 detik, AI membaca semua data — nama, NPWP, penghasilan, pajak terutang. Hasil langsung dikirim balik ke WhatsApp klien.
+              Dalam kurang dari 1 menit, AI membaca semua data — nama, NPWP, penghasilan, pajak terutang. Hasil langsung dikirim balik ke WhatsApp klien.
             </p>
           </div>
 
@@ -363,7 +363,7 @@ export default function Home() {
         {/* Arrow annotation */}
         <div className="mt-12 rounded-2xl bg-gradient-to-r from-[#25D366]/10 via-[var(--primary)]/10 to-[var(--accent)]/10 p-6 text-center">
           <div className="text-lg font-bold">
-            30 menit kerja manual → <span className="text-[var(--primary)]">10 detik AI + 1 klik review</span>
+            30 menit kerja manual → <span className="text-[var(--primary)]">kurang dari 1 menit AI + 1 klik review</span>
           </div>
           <div className="mt-1 text-sm text-[var(--text-secondary)]">Per dokumen. Kalikan 50 klien. Hitung sendiri berapa jam yang dihemat.</div>
         </div>
@@ -381,7 +381,7 @@ export default function Home() {
             </h2>
             <p className="mx-auto mb-12 max-w-2xl text-[var(--text-secondary)]">
               22 jenis error Coretax sudah dikenal. Pajakia auto-fix sebelum upload, decode error message,
-              dan auto-retry kalau Coretax down. <strong>Tidak ada lagi SPT ditolak.</strong>
+              dan auto-retry apabila Coretax down. <strong>Tidak ada lagi SPT ditolak.</strong>
             </p>
           </div>
 
@@ -464,7 +464,7 @@ export default function Home() {
             <div className="rounded-xl border-2 border-green-100 bg-green-50/50 p-6">
               <div className="mb-3 text-sm font-bold text-green-600">✅ DENGAN PAJAKIA CORETAX</div>
               <ul className="space-y-2 text-sm text-green-800">
-                <li>⚡ 15 menit per filing (10 detik OCR + auto-XML)</li>
+                <li>⚡ 15 menit per filing (kurang dari 1 menit OCR + auto-XML)</li>
                 <li>🔧 NPWP auto-fix sebelum upload</li>
                 <li>✅ Pre-flight validation, 0% rejection</li>
                 <li>💾 Browser extension auto-save tiap 30 detik</li>
@@ -586,7 +586,7 @@ export default function Home() {
       <section className="border-y border-[var(--border)] bg-gradient-to-r from-[var(--primary)] to-[#1e40af] text-white">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-6 py-12 md:grid-cols-4">
           {[
-            { value: "10 detik", label: "Per dokumen (OCR)" },
+            { value: "< 1 menit", label: "Per dokumen (OCR)" },
             { value: "95%", label: "Akurasi AI" },
             { value: "100+", label: "Klien per konsultan" },
             { value: "80%", label: "Waktu admin dihemat" },
@@ -686,7 +686,7 @@ export default function Home() {
             Coba sekarang — kirim satu bukti potong
           </h2>
           <p className="mx-auto mb-8 max-w-xl text-lg text-[var(--text-secondary)]">
-            Lihat sendiri bagaimana AI membaca dokumen pajak dalam 10 detik.
+            Lihat sendiri bagaimana AI membaca dokumen pajak dalam kurang dari 1 menit.
             Langsung via WhatsApp, gratis, tanpa daftar.
           </p>
           <Link
@@ -699,7 +699,7 @@ export default function Home() {
           <div className="mt-4 flex items-center justify-center gap-6 text-sm text-[var(--text-secondary)]">
             <span>🔒 Enkripsi AES-256</span>
             <span>🇮🇩 Server Indonesia</span>
-            <span>⚡ Hasil dalam 10 detik</span>
+            <span>⚡ Hasil dalam hitungan detik</span>
           </div>
         </div>
       </section>

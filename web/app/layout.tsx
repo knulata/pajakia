@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Pajakia — Asisten Pajak Cerdas Indonesia",
+  title: "Pajakia — WhatsApp Tax Processing untuk Konsultan Pajak",
   description:
-    "Hitung PPh 21, siapkan SPT, scan bukti potong — semua dengan bantuan AI. Gratis untuk individu.",
+    "Klien kirim foto dokumen via WhatsApp, AI baca otomatis. Untuk konsultan pajak Indonesia.",
+  icons: {
+    icon: "/favicon.svg",
+  },
   openGraph: {
-    title: "Pajakia — Asisten Pajak Cerdas Indonesia",
-    description: "Hitung pajak, siapkan SPT, scan dokumen. Gratis.",
+    title: "Pajakia — WhatsApp Tax Processing untuk Konsultan Pajak",
+    description: "Foto bukti potong, SPT langsung jadi. AI-powered tax processing via WhatsApp.",
     type: "website",
   },
 };
