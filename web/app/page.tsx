@@ -6,15 +6,15 @@ const WA_BG_PATTERN = "url(\"data:image/svg+xml,%3Csvg width='60' height='60' vi
 function WaChatBubble({ from, children, time, tail }: { from: "client" | "pajakia"; children: React.ReactNode; time: string; tail?: boolean }) {
   const isClient = from === "client";
   return (
-    <div className={`flex ${isClient ? "justify-end" : "justify-start"} ${tail ? "mt-1" : "mt-2"}`}>
-      <div className={`relative max-w-[85%] rounded-lg px-2.5 py-1.5 text-[12px] leading-snug shadow-sm ${
+    <div className={`flex ${isClient ? "justify-end" : "justify-start"} ${tail ? "mt-0.5" : "mt-1.5"}`}>
+      <div className={`relative max-w-[88%] rounded-md px-2 py-1 text-[10px] leading-snug shadow-sm ${
         isClient ? "bg-[#d9fdd3] text-[#111b21]" : "bg-white text-[#111b21]"
       }`}>
         {!isClient && !tail && (
-          <div className="mb-0.5 text-[11px] font-semibold text-[#1a56db]">Pajakia AI</div>
+          <div className="mb-0.5 text-[9px] font-semibold text-[#1a56db]">Pajakia AI</div>
         )}
         <div>{children}</div>
-        <div className="mt-0.5 text-right text-[9px] text-[#667781]">
+        <div className="mt-0.5 text-right text-[7px] text-[#667781]">
           {time} {isClient && <span className="ml-0.5 text-[#53bdeb]">✓✓</span>}
         </div>
       </div>
@@ -24,19 +24,19 @@ function WaChatBubble({ from, children, time, tail }: { from: "client" | "pajaki
 
 function WaImageBubble({ time }: { time: string }) {
   return (
-    <div className="flex justify-end mt-2">
-      <div className="relative rounded-lg overflow-hidden bg-[#d9fdd3] shadow-sm">
-        <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-2" style={{ width: 150, height: 80 }}>
-          <div className="rounded bg-white p-2 shadow-sm" style={{ transform: "rotate(-1deg)" }}>
-            <div className="mb-1 h-1.5 w-16 rounded bg-gray-800"></div>
-            <div className="mb-1.5 text-[6px] font-bold text-gray-600">BUKTI PEMOTONGAN PPh 21</div>
+    <div className="flex justify-end mt-1.5">
+      <div className="relative rounded-md overflow-hidden bg-[#d9fdd3] shadow-sm">
+        <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-1.5" style={{ width: 120, height: 65 }}>
+          <div className="rounded bg-white p-1.5 shadow-sm" style={{ transform: "rotate(-1deg)" }}>
+            <div className="mb-0.5 h-1 w-12 rounded bg-gray-800"></div>
+            <div className="mb-1 text-[5px] font-bold text-gray-600">BUKTI POTONG PPh 21</div>
             <div className="space-y-0.5">
-              <div className="flex gap-1"><div className="h-1 w-10 rounded bg-gray-300"></div><div className="h-1 w-12 rounded bg-gray-400"></div></div>
-              <div className="flex gap-1"><div className="h-1 w-8 rounded bg-gray-300"></div><div className="h-1 w-14 rounded bg-blue-300"></div></div>
+              <div className="flex gap-0.5"><div className="h-0.5 w-8 rounded bg-gray-300"></div><div className="h-0.5 w-10 rounded bg-gray-400"></div></div>
+              <div className="flex gap-0.5"><div className="h-0.5 w-6 rounded bg-gray-300"></div><div className="h-0.5 w-10 rounded bg-blue-300"></div></div>
             </div>
           </div>
         </div>
-        <div className="px-2 py-0.5 text-right text-[9px] text-[#667781]">
+        <div className="px-1.5 py-0.5 text-right text-[7px] text-[#667781]">
           {time} <span className="ml-0.5 text-[#53bdeb]">✓✓</span>
         </div>
       </div>
@@ -44,45 +44,45 @@ function WaImageBubble({ time }: { time: string }) {
   );
 }
 
-/** Fixed-height WhatsApp phone — consistent 480px across all instances */
+/** Fixed-size WhatsApp phone — 230×500 ratio close to real iPhone (0.46) */
 function WaPhoneMockup({ children, label }: { children: React.ReactNode; label?: string }) {
   return (
     <div className="flex flex-col items-center">
       {label && <div className="mb-2 text-sm font-semibold text-[var(--text-secondary)]">{label}</div>}
-      <div className="flex w-[280px] flex-col overflow-hidden rounded-[1.75rem] border-[5px] border-gray-800 shadow-2xl" style={{ height: 480 }}>
+      <div className="flex flex-col overflow-hidden rounded-[2rem] border-[5px] border-gray-800 shadow-2xl" style={{ width: 230, height: 500 }}>
         {/* Header — fixed */}
         <div className="flex items-center justify-between bg-[#008069] px-3 py-1.5 text-white flex-shrink-0">
           <div className="flex items-center gap-2">
-            <span className="text-xs">←</span>
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 text-[10px] font-bold">P</div>
+            <span className="text-[10px]">←</span>
+            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-[9px] font-bold">P</div>
             <div>
-              <div className="text-xs font-semibold">Pajakia</div>
-              <div className="text-[8px] opacity-80">online</div>
+              <div className="text-[11px] font-semibold leading-tight">Pajakia</div>
+              <div className="text-[7px] opacity-80">online</div>
             </div>
           </div>
-          <div className="flex gap-2 text-xs">📞 ⋮</div>
+          <div className="flex gap-1.5 text-[10px]">📞 ⋮</div>
         </div>
         {/* Chat area — fills remaining space, hides overflow */}
-        <div className="flex-1 overflow-hidden px-2.5 py-2 bg-[#efeae2]" style={{ backgroundImage: WA_BG_PATTERN }}>
+        <div className="flex-1 overflow-hidden px-2 py-1.5 bg-[#efeae2]" style={{ backgroundImage: WA_BG_PATTERN }}>
           {children}
         </div>
         {/* Input bar — fixed */}
-        <div className="flex items-center gap-1.5 bg-[#f0f2f5] px-2.5 py-1.5 flex-shrink-0">
-          <span className="text-sm">😊</span>
-          <span className="text-sm">📎</span>
-          <div className="flex-1 rounded-full bg-white px-2.5 py-1 text-[10px] text-gray-400">Ketik pesan</div>
-          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#008069] text-[10px] text-white">🎤</div>
+        <div className="flex items-center gap-1 bg-[#f0f2f5] px-2 py-1 flex-shrink-0">
+          <span className="text-[11px]">😊</span>
+          <span className="text-[11px]">📎</span>
+          <div className="flex-1 rounded-full bg-white px-2 py-0.5 text-[8px] text-gray-400">Ketik pesan</div>
+          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#008069] text-[9px] text-white">🎤</div>
         </div>
       </div>
     </div>
   );
 }
 
-/** Small phone for the 3-step section — fixed 280px height */
+/** Small phone for the 3-step section — 160×260 ratio matching real phone */
 function MiniPhoneMockup({ headerText, headerColor, children }: { headerText: string; headerColor: string; children: React.ReactNode }) {
   return (
-    <div className="mx-auto w-[200px]">
-      <div className="flex flex-col overflow-hidden rounded-2xl border-[4px] border-gray-800 shadow-xl" style={{ height: 220 }}>
+    <div className="mx-auto" style={{ width: 160 }}>
+      <div className="flex flex-col overflow-hidden rounded-2xl border-[3px] border-gray-800 shadow-xl" style={{ height: 260 }}>
         <div className={`${headerColor} px-3 py-1 text-left text-[9px] font-semibold text-white flex-shrink-0`}>
           {headerText}
         </div>
