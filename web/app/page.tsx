@@ -110,6 +110,9 @@ export default function Home() {
             <Link href="#cara-kerja" className="hidden sm:block text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text)]">
               Cara Kerja
             </Link>
+            <Link href="#coretax" className="hidden sm:flex items-center gap-1 text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text)]">
+              Coretax <span className="rounded-full bg-red-100 px-1.5 py-0.5 text-[10px] font-bold text-red-700">BARU</span>
+            </Link>
             <Link href="#harga" className="hidden sm:block text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text)]">
               Harga
             </Link>
@@ -366,6 +369,112 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Coretax-Ready Section */}
+      <section className="border-y border-[var(--border)] bg-gradient-to-b from-blue-50/40 to-white" id="coretax">
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <div className="text-center">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-sm font-semibold text-red-700">
+              🚨 March 2026: Coretax Bermasalah
+            </div>
+            <h2 className="mb-4 text-3xl font-extrabold md:text-4xl">
+              Coretax error? <span className="text-[var(--primary)]">Pajakia handle.</span>
+            </h2>
+            <p className="mx-auto mb-12 max-w-2xl text-[var(--text-secondary)]">
+              22 jenis error Coretax sudah dikenal. Pajakia auto-fix sebelum upload, decode error message,
+              dan auto-retry kalau Coretax down. <strong>Tidak ada lagi SPT ditolak.</strong>
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {/* Card 1: XML Generator */}
+            <div className="rounded-2xl border border-[var(--border)] bg-white p-6">
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-2xl">🛠️</div>
+              <h3 className="mb-2 font-bold">XML Generator</h3>
+              <p className="text-sm text-[var(--text-secondary)]">
+                Coretax wajib XML format. Pajakia auto-generate dari OCR data — e-Bupot, e-Faktur, SPT Masa.
+                NPWP auto-pad 16 digit, tanggal auto-ISO, karakter terlarang dihapus.
+              </p>
+            </div>
+
+            {/* Card 2: Validator */}
+            <div className="rounded-2xl border border-[var(--border)] bg-white p-6">
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-yellow-100 text-2xl">✅</div>
+              <h3 className="mb-2 font-bold">Pre-flight Validator</h3>
+              <p className="text-sm text-[var(--text-secondary)]">
+                Cek XML terhadap 22 error Coretax sebelum upload. Tahu persis field mana yang akan ditolak.
+                Auto-fix untuk error yang bisa diperbaiki otomatis.
+              </p>
+            </div>
+
+            {/* Card 3: Error Decoder */}
+            <div className="rounded-2xl border border-[var(--border)] bg-white p-6">
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100 text-2xl">🔍</div>
+              <h3 className="mb-2 font-bold">Error Decoder</h3>
+              <p className="text-sm text-[var(--text-secondary)]">
+                Paste error cryptic dari Coretax. Pajakia decode jadi penjelasan jelas + solusi spesifik.
+                Tidak ada lagi guessing.
+              </p>
+            </div>
+
+            {/* Card 4: Auto-Retry */}
+            <div className="rounded-2xl border border-[var(--border)] bg-white p-6">
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-2xl">🔁</div>
+              <h3 className="mb-2 font-bold">Auto-Retry Queue</h3>
+              <p className="text-sm text-[var(--text-secondary)]">
+                Coretax sering maintenance? Pajakia simpan submission di queue dan auto-retry dengan
+                exponential backoff. Anda tidur, Pajakia kerja.
+              </p>
+            </div>
+          </div>
+
+          {/* Browser Extension Card */}
+          <div className="mt-8 grid gap-6 rounded-2xl border-2 border-[var(--primary)] bg-white p-8 md:grid-cols-[auto_1fr] md:items-center">
+            <div className="text-6xl">🧩</div>
+            <div>
+              <div className="mb-1 inline-block rounded-full bg-blue-100 px-3 py-0.5 text-xs font-bold text-blue-800">
+                BROWSER EXTENSION (BARU)
+              </div>
+              <h3 className="text-xl font-extrabold">Pajakia Co-Pilot — Chrome Extension</h3>
+              <p className="mt-2 text-sm text-[var(--text-secondary)]">
+                Install extension Chrome yang sit di atas Coretax. Auto-fill form dari dashboard Pajakia,
+                decode error inline, auto-save draft setiap 30 detik (Coretax sering timeout!), dan record
+                semua submission untuk audit log.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                <span className="rounded-full bg-green-50 px-2 py-1 font-semibold text-green-700">✓ Auto-fill form</span>
+                <span className="rounded-full bg-green-50 px-2 py-1 font-semibold text-green-700">✓ Inline error decoder</span>
+                <span className="rounded-full bg-green-50 px-2 py-1 font-semibold text-green-700">✓ Draft auto-save</span>
+                <span className="rounded-full bg-green-50 px-2 py-1 font-semibold text-green-700">✓ Audit log</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Comparison */}
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <div className="rounded-xl border-2 border-red-100 bg-red-50/50 p-6">
+              <div className="mb-3 text-sm font-bold text-red-600">❌ TANPA PAJAKIA</div>
+              <ul className="space-y-2 text-sm text-red-800">
+                <li>⏱️ 2-4 jam per filing manual di Coretax</li>
+                <li>📁 Excel kill NPWP jadi notasi ilmiah</li>
+                <li>🚫 Upload ditolak, error code cryptic</li>
+                <li>😰 Coretax timeout, draft hilang</li>
+                <li>📞 Antri di kantor pajak DJP buat tanya</li>
+              </ul>
+            </div>
+            <div className="rounded-xl border-2 border-green-100 bg-green-50/50 p-6">
+              <div className="mb-3 text-sm font-bold text-green-600">✅ DENGAN PAJAKIA CORETAX</div>
+              <ul className="space-y-2 text-sm text-green-800">
+                <li>⚡ 15 menit per filing (10 detik OCR + auto-XML)</li>
+                <li>🔧 NPWP auto-fix sebelum upload</li>
+                <li>✅ Pre-flight validation, 0% rejection</li>
+                <li>💾 Browser extension auto-save tiap 30 detik</li>
+                <li>📚 Database 22 error Coretax dengan solusi</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* What Consultants Get */}
       <section className="border-y border-[var(--border)] bg-white" id="konsultan">
         <div className="mx-auto max-w-6xl px-6 py-20">
@@ -504,7 +613,7 @@ export default function Home() {
               period: "/bulan",
               clients: "Hingga 10 klien",
               desc: "Konsultan baru memulai",
-              features: ["WhatsApp OCR otomatis", "Dashboard + Kanban board", "Deadline tracker", "Auto-generate SPT", "Portal upload klien"],
+              features: ["WhatsApp OCR otomatis", "Dashboard + Kanban board", "Coretax XML generator", "Pre-flight validator", "Auto-generate SPT", "Portal upload klien"],
               highlight: false,
               roi: "10 klien x Rp 5jt = Rp 50jt/thn. Pajakia: 7%.",
             },
@@ -514,7 +623,7 @@ export default function Home() {
               period: "/bulan",
               clients: "Hingga 25 klien",
               desc: "Paling populer",
-              features: ["Semua fitur Starter", "Batch processing", "Invoice & revenue tracking", "Auto-reminder WhatsApp", "e-Bupot & e-Faktur CSV"],
+              features: ["Semua fitur Starter", "Batch processing", "Coretax error decoder", "Auto-retry queue", "Browser extension", "Invoice & revenue tracking"],
               highlight: true,
               roi: "25 klien x Rp 5jt = Rp 125jt/thn. Pajakia: ~6%.",
             },
@@ -524,7 +633,7 @@ export default function Home() {
               period: "/bulan",
               clients: "Hingga 50 klien",
               desc: "Konsultan berkembang",
-              features: ["Semua fitur Pro", "Multi-year history", "Anomaly detection", "Data export & compliance", "Priority support"],
+              features: ["Semua fitur Pro", "Multi-year history", "Anomaly detection", "Coretax priority queue", "Data export & compliance", "Priority support"],
               highlight: false,
               roi: "50 klien x Rp 5jt = Rp 250jt/thn. Pajakia: ~5%.",
             },
@@ -534,7 +643,7 @@ export default function Home() {
               period: "/bulan",
               clients: "Hingga 100+ klien",
               desc: "Kantor konsultan besar",
-              features: ["Semua fitur Business", "Unlimited klien", "2FA + audit log wajib", "API access", "Dedicated onboarding"],
+              features: ["Semua fitur Business", "Unlimited klien", "Coretax SLA support", "2FA + audit log wajib", "API access", "Dedicated onboarding"],
               highlight: false,
               roi: "100 klien x Rp 5jt = Rp 500jt/thn. Pajakia: ~4%.",
             },
@@ -565,7 +674,8 @@ export default function Home() {
         </div>
 
         <div className="mx-auto mt-8 max-w-3xl text-center text-sm text-[var(--text-secondary)]">
-          Semua paket termasuk: enkripsi AES-256, server Indonesia, backup harian. Tanpa kartu kredit untuk trial.
+          Semua paket Coretax-Ready: XML generator, validator 22 error, error decoder, auto-retry queue.
+          Plus: enkripsi AES-256, server Indonesia, backup harian. Tanpa kartu kredit untuk trial.
         </div>
       </section>
 

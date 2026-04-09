@@ -9,9 +9,10 @@ from app.models.portal_token import PortalToken
 from app.models.consent import ClientConsent
 from app.models.document_verification import DocumentVerification
 from app.models.spt_template import SPTTemplate
+from app.models.coretax_submission import CoretaxSubmission
 
 __all__ = [
     "User", "Document", "TaxFiling", "WhatsAppMessage", "Client",
     "AuditLog", "Invoice", "PortalToken", "ClientConsent",
-    "DocumentVerification", "SPTTemplate",
+    "DocumentVerification", "SPTTemplate", "CoretaxSubmission",
 ]

@@ -7,6 +7,7 @@ const navItems = [
   { href: "/konsultan", label: "Dashboard", icon: "📊" },
   { href: "/konsultan/klien", label: "Klien", icon: "👥" },
   { href: "/konsultan/board", label: "Filing Board", icon: "📋" },
+  { href: "/konsultan/coretax", label: "Coretax", icon: "🚀" },
   { href: "/konsultan/deadline", label: "Deadline", icon: "📅" },
   { href: "/konsultan/dokumen", label: "Dokumen", icon: "📄" },
   { href: "/konsultan/invoice", label: "Invoice", icon: "💰" },

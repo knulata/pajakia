@@ -10,7 +10,7 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.core.config import get_settings
-from app.routers import auth, webhook, filings, tax, spt, consultant, portal, compliance
+from app.routers import auth, webhook, filings, tax, spt, consultant, portal, compliance, coretax
 
 logging.basicConfig(
     level=logging.INFO,
@@ -158,6 +158,7 @@ app.include_router(spt.router, prefix=settings.api_prefix)
 app.include_router(consultant.router, prefix=settings.api_prefix)
 app.include_router(portal.router, prefix=settings.api_prefix)
 app.include_router(compliance.router, prefix=settings.api_prefix)
+app.include_router(coretax.router, prefix=settings.api_prefix)
 
 
 @app.get("/")
