@@ -1,5 +1,21 @@
 import Link from "next/link";
 
+/* ── Logo Component ── */
+function PajakiaLogo({ size = 24 }: { size?: number }) {
+  return (
+    <Link href="/" className="flex items-center gap-2">
+      <svg width={size} height={size} viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#1a56db"/><stop offset="100%" stopColor="#7c3aed"/></linearGradient></defs>
+        <rect width="64" height="64" rx="16" fill="url(#lg)"/>
+        <text x="32" y="45" textAnchor="middle" fontFamily="system-ui" fontWeight="800" fontSize="36" fill="white" letterSpacing="-2">P</text>
+        <circle cx="44" cy="18" r="6" fill="#25D366" opacity="0.9"/>
+        <path d="M41.5 18l2 2 3-3" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+      <span className="text-xl font-extrabold text-[var(--text)]">Pajakia</span>
+    </Link>
+  );
+}
+
 /* ── WhatsApp Chat Mockup Components ── */
 const WA_BG_PATTERN = "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4cfc6' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")";
 
@@ -100,9 +116,7 @@ export default function Home() {
       {/* Nav */}
       <nav className="sticky top-0 z-50 border-b border-[var(--border)] bg-white/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link href="/" className="text-2xl font-extrabold text-[var(--primary)]">
-            Pajakia
-          </Link>
+          <PajakiaLogo size={28} />
           <div className="flex items-center gap-6">
             <Link href="/kalkulator" className="hidden sm:block text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text)]">
               Kalkulator
@@ -709,7 +723,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6 py-12">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div>
-              <div className="text-xl font-extrabold text-[var(--primary)]">Pajakia</div>
+              <PajakiaLogo size={24} />
               <div className="mt-1 text-sm text-[var(--text-secondary)]">
                 WhatsApp-first tax processing untuk Indonesia
               </div>
