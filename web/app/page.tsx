@@ -5,8 +5,7 @@ function PajakiaLogo({ size = 24 }: { size?: number }) {
   return (
     <Link href="/" className="flex items-center gap-2">
       <svg width={size} height={size} viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#1a56db"/><stop offset="100%" stopColor="#7c3aed"/></linearGradient></defs>
-        <rect width="64" height="64" rx="16" fill="url(#lg)"/>
+        <rect width="64" height="64" rx="16" fill="#1a56db"/>
         <text x="32" y="45" textAnchor="middle" fontFamily="system-ui" fontWeight="800" fontSize="36" fill="white" letterSpacing="-2">P</text>
         <circle cx="44" cy="18" r="6" fill="#25D366" opacity="0.9"/>
         <path d="M41.5 18l2 2 3-3" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
