@@ -11,7 +11,7 @@ function PajakiaLogo({ size = 24 }: { size?: number }) {
         <circle cx="44" cy="18" r="6" fill="#25D366" opacity="0.9"/>
         <path d="M41.5 18l2 2 3-3" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
       </svg>
-      <span className="text-xl font-extrabold text-[var(--text)]">Pajakia</span>
+      <span className="text-xl font-extrabold text-[var(--primary)]">Pajakia</span>
     </Link>
   );
 }
