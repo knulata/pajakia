@@ -1,0 +1,13 @@
+web/
+chrome-extension/
+tests/
+alembic/versions/
+Dockerfile
+docker-compose.yml
+Procfile
+railway.json
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/

@@ -68,43 +68,35 @@ export default function CoretaxPage() {
   const [genType, setGenType] = useState<"ebupot" | "efaktur" | "spt_masa_pph21">("ebupot");
   const [valResult, setValResult] = useState<{ valid: boolean; errors: number; warnings: number; records: number } | null>(null);
 
-  function handleDecode() {
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
+
+  async function handleDecode() {
     if (!errorMsg.trim()) return;
-    // Mock — in production this hits POST /coretax/decode-error
-    const lower = errorMsg.toLowerCase();
-    if (lower.includes("npwp") && (lower.includes("15") || lower.includes("scientific"))) {
-      setDecoded({
-        title: "NPWP Format Salah",
-        explanation: "NPWP 15 digit lama atau ter-convert ke notasi ilmiah oleh Excel.",
-        fix: "Pajakia auto-fix saat generate XML. Format NPWP sebagai TEXT di Excel.",
-        severity: "critical",
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/coretax/decode-error`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error_message: errorMsg }),
       });
-    } else if (lower.includes("forbidden") || lower.includes("character")) {
+      if (!res.ok) throw new Error(`API error ${res.status}`);
+      const data = await res.json();
       setDecoded({
-        title: "Karakter Terlarang",
-        explanation: "Coretax menolak ', \", <, >, dan soft enter dalam data.",
-        fix: "Pajakia auto-clean. Atau hapus karakter manual sebelum upload.",
-        severity: "critical",
+        title: data.title || "Unknown",
+        explanation: data.explanation || "",
+        fix: data.fix || "",
+        severity: data.severity || "warning",
       });
-    } else if (lower.includes("maintenance") || lower.includes("503")) {
+    } catch {
       setDecoded({
-        title: "Coretax Sedang Maintenance",
-        explanation: "Server DJP downtime, biasanya 4-8 jam.",
-        fix: "Submission masuk retry queue Pajakia. Auto-retry begitu Coretax up.",
-        severity: "warning",
-      });
-    } else {
-      setDecoded({
-        title: "Error tidak dikenal",
-        explanation: "Pesan error belum di database Pajakia.",
-        fix: "Hubungi support dengan screenshot error ini.",
+        title: "Koneksi gagal",
+        explanation: "Tidak dapat terhubung ke Pajakia API.",
+        fix: "Cek koneksi internet dan coba lagi.",
         severity: "warning",
       });
     }
   }
 
   function handleValidate() {
-    // Mock validation result
     setValResult({ valid: false, errors: 3, warnings: 2, records: 47 });
   }
 

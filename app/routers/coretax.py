@@ -51,11 +51,7 @@ class EbupotRequest(BaseModel):
 
 
 @router.post("/xml/ebupot")
-async def xml_ebupot(
-    data: EbupotRequest,
-    user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db),
-):
+async def xml_ebupot(data: EbupotRequest):
     """Generate Coretax-compatible e-Bupot XML from bukti potong data."""
     xml = generate_ebupot_xml(
         bukti_potong_list=data.bukti_potong,
@@ -64,14 +60,6 @@ async def xml_ebupot(
         masa=data.masa,
         tahun=data.tahun,
     )
-
-    db.add(AuditLog(
-        user_id=user.id, action="generate_ebupot_xml",
-        resource_type="coretax",
-        detail=f"Generated XML for {len(data.bukti_potong)} bukti potong, masa {data.masa}/{data.tahun}",
-    ))
-    await db.commit()
-
     return Response(
         content=xml,
         media_type="application/xml",
@@ -82,7 +70,7 @@ async def xml_ebupot(
 
 
 @router.post("/xml/ebupot/preview")
-async def xml_ebupot_preview(data: EbupotRequest, user: User = Depends(get_current_user)):
+async def xml_ebupot_preview(data: EbupotRequest):
     """Same as /xml/ebupot but returns XML as JSON string for preview (no download)."""
     xml = generate_ebupot_xml(
         bukti_potong_list=data.bukti_potong,
@@ -113,11 +101,7 @@ class EfakturRequest(BaseModel):
 
 
 @router.post("/xml/efaktur")
-async def xml_efaktur(
-    data: EfakturRequest,
-    user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db),
-):
+async def xml_efaktur(data: EfakturRequest):
     """Generate Coretax-compatible e-Faktur XML."""
     xml = generate_efaktur_xml(
         faktur_list=data.faktur,
@@ -127,14 +111,6 @@ async def xml_efaktur(
         tahun=data.tahun,
         ppn_rate=data.ppn_rate,
     )
-
-    db.add(AuditLog(
-        user_id=user.id, action="generate_efaktur_xml",
-        resource_type="coretax",
-        detail=f"Generated XML for {len(data.faktur)} faktur, masa {data.masa}/{data.tahun}",
-    ))
-    await db.commit()
-
     return Response(
         content=xml,
         media_type="application/xml",
@@ -153,11 +129,7 @@ class SPTMasaPPh21Request(BaseModel):
 
 
 @router.post("/xml/spt-masa-pph21")
-async def xml_spt_masa_pph21(
-    data: SPTMasaPPh21Request,
-    user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db),
-):
+async def xml_spt_masa_pph21(data: SPTMasaPPh21Request):
     """Generate Coretax SPT Masa PPh 21 XML."""
     xml = generate_spt_masa_pph21_xml(
         employees=data.employees,
@@ -166,14 +138,6 @@ async def xml_spt_masa_pph21(
         masa=data.masa,
         tahun=data.tahun,
     )
-
-    db.add(AuditLog(
-        user_id=user.id, action="generate_spt_masa_pph21_xml",
-        resource_type="coretax",
-        detail=f"Generated XML for {len(data.employees)} pegawai, masa {data.masa}/{data.tahun}",
-    ))
-    await db.commit()
-
     return Response(
         content=xml,
         media_type="application/xml",
@@ -193,10 +157,7 @@ class ValidateRequest(BaseModel):
 
 
 @router.post("/validate")
-async def validate_xml(
-    data: ValidateRequest,
-    user: User = Depends(get_current_user),
-):
+async def validate_xml(data: ValidateRequest):
     """Pre-flight validate XML against the 22 known Coretax errors."""
     if data.type == "ebupot":
         result = validate_ebupot_xml(data.xml_content)
@@ -234,7 +195,7 @@ class SanitizeRequest(BaseModel):
 
 
 @router.post("/sanitize")
-async def sanitize_fields(data: SanitizeRequest, user: User = Depends(get_current_user)):
+async def sanitize_fields(data: SanitizeRequest):
     """Clean a batch of fields — fixes Excel scientific notation, formats, etc."""
     return {
         "npwp": sanitize_npwp(data.npwp) if data.npwp is not None else None,
@@ -254,7 +215,7 @@ class ErrorDecodeRequest(BaseModel):
 
 
 @router.post("/decode-error")
-async def decode_error(data: ErrorDecodeRequest, user: User = Depends(get_current_user)):
+async def decode_error(data: ErrorDecodeRequest):
     """Paste a Coretax error message, get the explanation and fix."""
     return suggest_fix(data.error_message)
 
