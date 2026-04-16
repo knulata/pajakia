@@ -149,9 +149,19 @@ async def revoke_consent(client_id: str, consent_type: str = Query(...), user: U
 @router.get("/privacy-info")
 async def privacy_info():
     return {
-        "data_residency": "Indonesia (ap-southeast-1)",
         "encryption": {"in_transit": "TLS 1.3", "at_rest": "AES-256-GCM (PII fields), S3 SSE (documents)"},
         "data_retention": f"{settings.data_retention_years} years",
-        "your_rights": ["Export all your data at any time", "Request complete data deletion", "View who accessed your data", "Revoke consent for data processing"],
+        "processors": [
+            "Vercel (infrastructure)",
+            "OpenAI GPT-4o Vision (OCR, 30-day retention, not used for training)",
+            "Meta WhatsApp Cloud API (messaging)",
+        ],
+        "compliance": "UU PDP (Law 27/2022) — consent-based cross-border transfer with contractual safeguards",
+        "your_rights": [
+            "Export all your data at any time",
+            "Request complete data deletion",
+            "View who accessed your data",
+            "Revoke consent for data processing",
+        ],
         "contact": "privacy@pajakia.com",
     }

@@ -128,7 +128,7 @@ export default function LoginPage() {
         {/* Trust signals */}
         <div className="mt-6 flex items-center justify-center gap-4 text-xs text-[var(--text-secondary)]">
           <span>🔒 Enkripsi AES-256</span>
-          <span>🇮🇩 Server Indonesia</span>
+          <span>📋 Audit log lengkap</span>
         </div>
 
         {/* Back to home */}

@@ -505,7 +505,7 @@ export default function Home() {
               { icon: "📅", title: "Deadline + Auto-Reminder", desc: "Semua deadline klien di satu tempat. Priority score otomatis. Reminder WhatsApp ke klien yang telat kirim dokumen." },
               { icon: "⚡", title: "Batch Processing", desc: "Upload 50 dokumen sekaligus. Generate SPT untuk 20 klien dalam satu klik. Import klien dari Excel." },
               { icon: "💰", title: "Invoice & Revenue", desc: "Buat invoice, track pembayaran, lihat MRR. Anda menjalankan bisnis, bukan cuma ngerjain pajak." },
-              { icon: "🔒", title: "Enterprise Security", desc: "Enkripsi AES-256, 2FA wajib, audit log lengkap, data di Indonesia. Tunjukkan ke klien bahwa data mereka aman." },
+              { icon: "🔒", title: "Enterprise Security", desc: "Enkripsi AES-256, 2FA wajib untuk konsultan, audit log setiap akses. Sesuai UU PDP. Tunjukkan ke klien bahwa data mereka aman." },
             ].map((f) => (
               <div key={f.title} className="rounded-xl border border-[var(--border)] p-5 hover:shadow-md transition-shadow">
                 <div className="mb-2 text-2xl">{f.icon}</div>
@@ -688,7 +688,7 @@ export default function Home() {
 
         <div className="mx-auto mt-8 max-w-3xl text-center text-sm text-[var(--text-secondary)]">
           Semua paket Coretax-Ready: XML generator, validator 22 error, error decoder, auto-retry queue.
-          Plus: enkripsi AES-256, server Indonesia, backup harian. Tanpa kartu kredit untuk trial.
+          Plus: enkripsi AES-256, backup harian, audit log lengkap. Tanpa kartu kredit untuk trial.
         </div>
       </section>
 
@@ -711,7 +711,7 @@ export default function Home() {
           </Link>
           <div className="mt-4 flex items-center justify-center gap-6 text-sm text-[var(--text-secondary)]">
             <span>🔒 Enkripsi AES-256</span>
-            <span>🇮🇩 Server Indonesia</span>
+            <span>📋 Audit log lengkap</span>
             <span>⚡ Hasil dalam hitungan detik</span>
           </div>
         </div>
