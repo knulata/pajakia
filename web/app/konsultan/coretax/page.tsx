@@ -290,25 +290,25 @@ export default function CoretaxPage() {
           </span>
         </div>
         <p className="text-sm text-[var(--text-secondary)]">
-          Generate XML, validasi sebelum upload, decode error — semua via web, tanpa install apapun.
+          Generate XML, validasi sebelum upload, terjemahkan error — semua lewat browser, tanpa perlu install apapun.
         </p>
       </div>
 
       {/* How it works callout */}
       <div className="rounded-xl border border-blue-200 bg-blue-50 p-5">
-        <div className="font-bold text-[var(--primary)] text-sm mb-2">Cara pakai (tanpa install)</div>
+        <div className="font-bold text-[var(--primary)] text-sm mb-2">Cara pakai (tanpa install apapun)</div>
         <div className="grid gap-3 md:grid-cols-3 text-sm text-[var(--text)]">
           <div className="flex items-start gap-2">
             <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[var(--primary)] text-xs font-bold text-white">1</span>
-            <div>Upload Excel bukti potong Anda di tab Generator → Pajakia auto-sanitize NPWP & tanggal → download XML siap upload.</div>
+            <div>Upload Excel bukti potong di tab Generator → Pajakia otomatis memperbaiki NPWP &amp; tanggal → download XML siap upload.</div>
           </div>
           <div className="flex items-start gap-2">
             <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[var(--primary)] text-xs font-bold text-white">2</span>
-            <div>Upload XML ke <a href="https://coretax.pajak.go.id" target="_blank" rel="noopener noreferrer" className="text-[var(--primary)] underline">coretax.pajak.go.id</a>. Kalau ditolak → copy error message.</div>
+            <div>Upload XML ke <a href="https://coretax.pajak.go.id" target="_blank" rel="noopener noreferrer" className="text-[var(--primary)] underline">coretax.pajak.go.id</a>. Apabila ditolak → salin pesan errornya.</div>
           </div>
           <div className="flex items-start gap-2">
             <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[var(--primary)] text-xs font-bold text-white">3</span>
-            <div>Paste error di tab Error Decoder → Pajakia kasih tahu tepatnya apa yang salah + cara fix-nya.</div>
+            <div>Paste pesan error di tab Error Decoder → Pajakia beritahu bagian mana yang salah + cara memperbaikinya.</div>
           </div>
         </div>
       </div>
@@ -333,9 +333,9 @@ export default function CoretaxPage() {
       <div className="flex gap-1 rounded-lg bg-gray-100 p-1 overflow-x-auto">
         {[
           { id: "generator" as Tab, label: "🛠️ Generator XML" },
-          { id: "validator" as Tab, label: "✅ Pre-flight Validator" },
+          { id: "validator" as Tab, label: "✅ Validator Pra-Upload" },
           { id: "decoder" as Tab, label: "🔍 Error Decoder" },
-          { id: "queue" as Tab, label: "🔁 Retry Queue" },
+          { id: "queue" as Tab, label: "🔁 Antrian Retry" },
           { id: "errors" as Tab, label: "📚 22 Error Catalog" },
         ].map((t) => (
           <button
@@ -469,9 +469,9 @@ export default function CoretaxPage() {
       {tab === "validator" && (
         <div className="rounded-xl border border-[var(--border)] bg-white p-6 space-y-4">
           <div>
-            <h3 className="text-lg font-bold">Pre-flight Validator</h3>
+            <h3 className="text-lg font-bold">Validator Pra-Upload</h3>
             <p className="text-sm text-[var(--text-secondary)]">
-              Upload XML yang mau Anda kirim ke Coretax. Pajakia cek 22 error yang dikenal — sebelum Coretax menolaknya.
+              Upload XML yang akan Anda kirim ke Coretax. Pajakia akan cek 22 jenis error yang dikenal — sebelum Coretax menolaknya.
             </p>
           </div>
 
@@ -492,9 +492,9 @@ export default function CoretaxPage() {
             className="rounded-lg border-2 border-dashed border-[var(--border)] p-8 text-center cursor-pointer hover:border-[var(--primary)] hover:bg-blue-50"
           >
             <div className="text-4xl mb-2">📄</div>
-            <div className="font-semibold">{valFileName || "Upload XML file"}</div>
+            <div className="font-semibold">{valFileName || "Klik untuk pilih file XML"}</div>
             <div className="text-xs text-[var(--text-secondary)] mt-1">
-              Klik untuk pilih file
+              Atau drag &amp; drop file ke sini
             </div>
             <input
               ref={valFileRef}
@@ -510,14 +510,14 @@ export default function CoretaxPage() {
             disabled={valBusy || !valXml}
             className="w-full rounded-lg bg-[var(--primary)] px-4 py-3 text-sm font-semibold text-white hover:bg-[var(--primary-dark)] disabled:bg-gray-300"
           >
-            {valBusy ? "Validasi..." : "Validate Sekarang"}
+            {valBusy ? "Memvalidasi..." : "Validasi Sekarang"}
           </button>
 
           {valResult && (
             <div className="rounded-lg border border-[var(--border)] p-4 space-y-3">
               <div className="flex items-center gap-3">
                 <span className={`rounded-full px-3 py-1 text-xs font-bold ${valResult.is_valid ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                  {valResult.is_valid ? "✅ VALID — siap upload" : "❌ DITOLAK"}
+                  {valResult.is_valid ? "✅ VALID — siap upload" : "❌ ADA ERROR"}
                 </span>
                 <div className="text-sm">
                   <strong>{valResult.total_records}</strong> record diperiksa,{" "}
@@ -575,7 +575,7 @@ export default function CoretaxPage() {
         <div className="rounded-xl border border-[var(--border)] bg-white p-6">
           <h3 className="mb-1 text-lg font-bold">Coretax Error Decoder</h3>
           <p className="mb-4 text-sm text-[var(--text-secondary)]">
-            Paste error message dari Coretax. Pajakia decode dan kasih solusi spesifik.
+            Paste pesan error dari Coretax. Pajakia terjemahkan dan berikan solusi spesifik.
           </p>
 
           <textarea
@@ -618,9 +618,9 @@ export default function CoretaxPage() {
         <div className="rounded-xl border border-[var(--border)] bg-white">
           <div className="flex items-center justify-between border-b border-[var(--border)] px-6 py-4">
             <div>
-              <h3 className="text-lg font-bold">Retry Queue</h3>
+              <h3 className="text-lg font-bold">Antrian Auto-Retry</h3>
               <p className="text-sm text-[var(--text-secondary)]">
-                Tracking otomatis untuk submission yang pernah gagal (coming soon — akan aktif setelah database terhubung)
+                Pelacakan otomatis untuk submission yang pernah gagal (segera hadir — akan aktif setelah database terhubung)
               </p>
             </div>
           </div>

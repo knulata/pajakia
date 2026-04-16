@@ -145,7 +145,7 @@ export default function Home() {
           {/* Left: Copy */}
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-[#25D366]/10 px-4 py-1.5 text-sm font-semibold text-[#128C7E]">
-              <span>💬</span> WhatsApp-First Tax Processing
+              <span>💬</span> Proses Pajak via WhatsApp
             </div>
             <h1 className="mb-6 text-4xl font-extrabold leading-tight tracking-tight text-[var(--text)] md:text-5xl lg:text-6xl">
               Foto bukti potong.
@@ -172,7 +172,7 @@ export default function Home() {
               </Link>
             </div>
             <p className="mt-3 text-sm text-[var(--text-secondary)]">
-              Gratis untuk 3 dokumen pertama. Tanpa install app.
+              Gratis untuk 3 dokumen pertama. Tanpa perlu install aplikasi apapun.
             </p>
           </div>
 
@@ -265,7 +265,7 @@ export default function Home() {
                 <div className="flex items-start gap-2"><span>⚡</span> AI proses kurang dari 1 menit per dokumen</div>
                 <div className="flex items-start gap-2"><span>📊</span> Data langsung masuk dashboard</div>
                 <div className="flex items-start gap-2"><span>😊</span> Klien langsung lihat hasilnya</div>
-                <div className="flex items-start gap-2"><span>✅</span> Akurasi 95%, flagged jika ragu</div>
+                <div className="flex items-start gap-2"><span>✅</span> Akurasi 95%, ditandai jika ada yang ragu</div>
               </div>
             </div>
           </div>
@@ -306,7 +306,7 @@ export default function Home() {
               <h3 className="text-lg font-bold">Klien Kirim Foto</h3>
             </div>
             <p className="text-sm text-[var(--text-secondary)]">
-              Klien foto bukti potong, faktur pajak, atau dokumen apapun — langsung kirim via WhatsApp. Tanpa download app, tanpa buat akun.
+              Klien foto bukti potong, faktur pajak, atau dokumen lainnya — langsung kirim via WhatsApp. Tanpa download aplikasi, tanpa buat akun.
             </p>
           </div>
 
@@ -338,7 +338,7 @@ export default function Home() {
               <h3 className="text-lg font-bold">AI Baca & Ekstrak</h3>
             </div>
             <p className="text-sm text-[var(--text-secondary)]">
-              Dalam kurang dari 1 menit, AI membaca semua data — nama, NPWP, penghasilan, pajak terutang. Hasil langsung dikirim balik ke WhatsApp klien.
+              Dalam hitungan detik, AI membaca semua data — nama, NPWP, penghasilan, pajak terutang. Hasil langsung dikirim ulang ke WhatsApp klien.
             </p>
           </div>
 
@@ -365,10 +365,10 @@ export default function Home() {
             </div>
             <div className="mb-2 flex items-center justify-center gap-2">
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)] text-sm font-bold text-white">3</span>
-              <h3 className="text-lg font-bold">Anda Review & Approve</h3>
+              <h3 className="text-lg font-bold">Anda Review & Setujui</h3>
             </div>
             <p className="text-sm text-[var(--text-secondary)]">
-              Data masuk ke dashboard Anda. Side-by-side view: dokumen asli vs hasil OCR. Satu klik verifikasi, lalu generate SPT.
+              Data masuk ke dashboard Anda. Tampilan berdampingan: dokumen asli vs hasil OCR. Satu klik verifikasi, lalu generate SPT.
             </p>
           </div>
         </div>
@@ -390,11 +390,11 @@ export default function Home() {
               🚨 March 2026: Coretax Bermasalah
             </div>
             <h2 className="mb-4 text-3xl font-extrabold md:text-4xl">
-              Coretax error? <span className="text-[var(--primary)]">Pajakia handle.</span>
+              Coretax error? <span className="text-[var(--primary)]">Pajakia yang urus.</span>
             </h2>
             <p className="mx-auto mb-12 max-w-2xl text-[var(--text-secondary)]">
-              22 jenis error Coretax sudah dikenal. Pajakia auto-fix sebelum upload, decode error message,
-              dan auto-retry apabila Coretax down. <strong>Tidak ada lagi SPT ditolak.</strong>
+              22 jenis error Coretax sudah kami kenali. Pajakia otomatis memperbaiki data sebelum upload, menerjemahkan
+              pesan error, dan otomatis mencoba ulang apabila Coretax down. <strong>Tidak ada lagi SPT ditolak.</strong>
             </p>
           </div>
 
@@ -402,19 +402,19 @@ export default function Home() {
             {/* Card 1: XML Generator */}
             <div className="rounded-2xl border border-[var(--border)] bg-white p-6">
               <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-2xl">🛠️</div>
-              <h3 className="mb-2 font-bold">XML Generator</h3>
+              <h3 className="mb-2 font-bold">Generator XML</h3>
               <p className="text-sm text-[var(--text-secondary)]">
-                Coretax wajib XML format. Pajakia auto-generate dari OCR data — e-Bupot, e-Faktur, SPT Masa.
-                NPWP auto-pad 16 digit, tanggal auto-ISO, karakter terlarang dihapus.
+                Coretax wajib format XML. Pajakia generate otomatis dari data OCR — e-Bupot, e-Faktur, SPT Masa.
+                NPWP dipadkan ke 16 digit, tanggal diubah ke format ISO, karakter terlarang dihapus.
               </p>
             </div>
 
             {/* Card 2: Validator */}
             <div className="rounded-2xl border border-[var(--border)] bg-white p-6">
               <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-yellow-100 text-2xl">✅</div>
-              <h3 className="mb-2 font-bold">Pre-flight Validator</h3>
+              <h3 className="mb-2 font-bold">Validator Pra-Upload</h3>
               <p className="text-sm text-[var(--text-secondary)]">
-                Cek XML terhadap 22 error Coretax sebelum upload. Tahu persis field mana yang akan ditolak.
+                Cek XML terhadap 22 error Coretax sebelum upload. Anda tahu persis field mana yang akan ditolak.
                 Auto-fix untuk error yang bisa diperbaiki otomatis.
               </p>
             </div>
@@ -424,18 +424,18 @@ export default function Home() {
               <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100 text-2xl">🔍</div>
               <h3 className="mb-2 font-bold">Error Decoder</h3>
               <p className="text-sm text-[var(--text-secondary)]">
-                Paste error cryptic dari Coretax. Pajakia decode jadi penjelasan jelas + solusi spesifik.
-                Tidak ada lagi guessing.
+                Paste pesan error dari Coretax. Pajakia terjemahkan jadi penjelasan yang jelas + solusi spesifik.
+                Tidak perlu tebak-tebakan lagi.
               </p>
             </div>
 
             {/* Card 4: Auto-Retry */}
             <div className="rounded-2xl border border-[var(--border)] bg-white p-6">
               <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-2xl">🔁</div>
-              <h3 className="mb-2 font-bold">Auto-Retry Queue</h3>
+              <h3 className="mb-2 font-bold">Antrian Auto-Retry</h3>
               <p className="text-sm text-[var(--text-secondary)]">
-                Coretax sering maintenance? Pajakia simpan submission di queue dan auto-retry dengan
-                exponential backoff. Anda tidur, Pajakia kerja.
+                Coretax sering maintenance? Pajakia simpan submission Anda di antrian dan otomatis coba ulang
+                sampai berhasil. Anda tidur, Pajakia yang kerja.
               </p>
             </div>
           </div>
@@ -446,15 +446,15 @@ export default function Home() {
               <div className="mb-2 inline-block rounded-full bg-emerald-100 px-3 py-0.5 text-xs font-bold text-emerald-800">
                 ✅ SUDAH TERSEDIA
               </div>
-              <h3 className="text-lg font-extrabold">Pakai via Web — Tanpa Install</h3>
+              <h3 className="text-lg font-extrabold">Pakai Via Web — Tanpa Install</h3>
               <p className="mt-2 text-sm text-[var(--text-secondary)]">
-                Upload Excel bukti potong → Pajakia generate XML Coretax-ready → download → upload ke DJP.
-                Kalau ditolak Coretax, paste error message → Pajakia kasih tahu cara fix-nya. Semua via browser.
+                Upload Excel bukti potong → Pajakia generate XML siap Coretax → download → upload ke DJP.
+                Apabila ditolak Coretax, paste pesan errornya → Pajakia kasih tahu cara memperbaikinya. Semua via browser.
               </p>
               <div className="mt-3 flex flex-wrap gap-2 text-xs">
                 <span className="rounded-full bg-emerald-100 px-2 py-1 font-semibold text-emerald-800">Excel → XML</span>
-                <span className="rounded-full bg-emerald-100 px-2 py-1 font-semibold text-emerald-800">Pre-flight validator</span>
-                <span className="rounded-full bg-emerald-100 px-2 py-1 font-semibold text-emerald-800">Error decoder live</span>
+                <span className="rounded-full bg-emerald-100 px-2 py-1 font-semibold text-emerald-800">Validator pra-upload</span>
+                <span className="rounded-full bg-emerald-100 px-2 py-1 font-semibold text-emerald-800">Error decoder</span>
               </div>
             </div>
 
@@ -464,8 +464,8 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-extrabold">Chrome Extension Co-Pilot</h3>
               <p className="mt-2 text-sm text-[var(--text-secondary)]">
-                Sit di atas Coretax langsung — auto-fill form dari dashboard, decode error inline, auto-save draft tiap 30 detik.
-                Daftar waitlist untuk akses early access.
+                Extension yang berjalan di atas Coretax — auto-isi form dari dashboard, decode error langsung di halaman, auto-save draft setiap 30 detik.
+                Daftar waitlist untuk akses lebih awal.
               </p>
               <Link
                 href="https://wa.me/628131102445?text=Mau%20daftar%20waitlist%20Chrome%20Extension%20Pajakia"
@@ -481,21 +481,21 @@ export default function Home() {
             <div className="rounded-xl border-2 border-red-100 bg-red-50/50 p-6">
               <div className="mb-3 text-sm font-bold text-red-600">❌ TANPA PAJAKIA</div>
               <ul className="space-y-2 text-sm text-red-800">
-                <li>⏱️ 2-4 jam per filing manual di Coretax</li>
-                <li>📁 Excel kill NPWP jadi notasi ilmiah</li>
-                <li>🚫 Upload ditolak, error code cryptic</li>
-                <li>😰 Coretax timeout, draft hilang</li>
-                <li>📞 Antri di kantor pajak DJP buat tanya</li>
+                <li>⏱️ 2-4 jam untuk proses satu pelaporan manual</li>
+                <li>📁 Excel merusak NPWP jadi notasi ilmiah</li>
+                <li>🚫 Upload ditolak, error tidak jelas artinya</li>
+                <li>😰 Coretax timeout, draft kerjaan hilang</li>
+                <li>📞 Antri di kantor pajak DJP untuk bertanya</li>
               </ul>
             </div>
             <div className="rounded-xl border-2 border-green-100 bg-green-50/50 p-6">
               <div className="mb-3 text-sm font-bold text-green-600">✅ DENGAN PAJAKIA CORETAX</div>
               <ul className="space-y-2 text-sm text-green-800">
-                <li>⚡ 15 menit per filing (kurang dari 1 menit OCR + auto-XML)</li>
-                <li>🔧 NPWP auto-fix sebelum upload</li>
-                <li>✅ Pre-flight validation, 0% rejection</li>
-                <li>💾 Browser extension auto-save tiap 30 detik</li>
-                <li>📚 Database 22 error Coretax dengan solusi</li>
+                <li>⚡ 15 menit per pelaporan (OCR + auto-generate XML)</li>
+                <li>🔧 NPWP otomatis dibetulkan sebelum upload</li>
+                <li>✅ Validasi pra-upload, tidak ada lagi ditolak</li>
+                <li>💾 Draft auto-save tiap 30 detik (via extension)</li>
+                <li>📚 Database 22 error Coretax lengkap dengan solusinya</li>
               </ul>
             </div>
           </div>
@@ -506,19 +506,19 @@ export default function Home() {
       <section className="border-y border-[var(--border)] bg-white" id="konsultan">
         <div className="mx-auto max-w-6xl px-6 py-20">
           <div className="text-center">
-            <h2 className="mb-4 text-3xl font-extrabold">Dashboard untuk konsultan yang serius scale</h2>
+            <h2 className="mb-4 text-3xl font-extrabold">Dashboard untuk konsultan yang mau tambah klien</h2>
             <p className="mx-auto mb-12 max-w-xl text-[var(--text-secondary)]">
-              Semua dokumen WhatsApp masuk ke satu dashboard. Track, review, approve, generate — tanpa spreadsheet.
+              Semua dokumen dari WhatsApp masuk ke satu dashboard. Review, setujui, generate SPT — tanpa perlu spreadsheet.
             </p>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[
-              { icon: "📋", title: "Kanban Filing Board", desc: "Lihat semua SPT klien per status. Drag & drop dari Draft → Review → Filed. Tidak ada yang terlewat." },
+              { icon: "📋", title: "Papan Progress SPT", desc: "Lihat semua SPT klien per status. Drag & drop dari Draft → Review → Selesai Lapor. Tidak ada yang terlewat." },
               { icon: "🔍", title: "Verifikasi Side-by-Side", desc: "Dokumen asli di kiri, data OCR di kanan. Field confidence rendah di-highlight merah. Edit langsung, klik Verifikasi." },
               { icon: "📅", title: "Deadline + Auto-Reminder", desc: "Semua deadline klien di satu tempat. Priority score otomatis. Reminder WhatsApp ke klien yang telat kirim dokumen." },
               { icon: "⚡", title: "Batch Processing", desc: "Upload 50 dokumen sekaligus. Generate SPT untuk 20 klien dalam satu klik. Import klien dari Excel." },
-              { icon: "💰", title: "Invoice & Revenue", desc: "Buat invoice, track pembayaran, lihat MRR. Anda menjalankan bisnis, bukan cuma ngerjain pajak." },
+              { icon: "💰", title: "Invoice & Pendapatan", desc: "Buat invoice, pantau pembayaran, lihat MRR. Anda menjalankan bisnis, bukan cuma mengerjakan pajak." },
               { icon: "🔒", title: "Enterprise Security", desc: "Enkripsi AES-256, 2FA wajib untuk konsultan, audit log setiap akses. Sesuai UU PDP. Tunjukkan ke klien bahwa data mereka aman." },
             ].map((f) => (
               <div key={f.title} className="rounded-xl border border-[var(--border)] p-5 hover:shadow-md transition-shadow">
@@ -537,17 +537,17 @@ export default function Home() {
           <div>
             <h2 className="mb-4 text-3xl font-extrabold">Pagi Anda dengan Pajakia</h2>
             <p className="mb-8 text-[var(--text-secondary)]">
-              Sebelum jam 10 pagi, Anda sudah proses 12 dokumen, file 8 SPT, dan kirim 5 reminder.
-              Sisa hari untuk advisory — pekerjaan yang benar-benar bernilai.
+              Sebelum jam 10 pagi, Anda sudah proses 12 dokumen, lapor 8 SPT, dan kirim 5 reminder.
+              Sisanya untuk advisory — pekerjaan yang benar-benar bernilai.
             </p>
             <div className="space-y-4">
               {[
                 { time: "08:00", text: "Buka dashboard. 12 dokumen dari WhatsApp klien sudah diproses AI semalam." },
-                { time: "08:15", text: "Review 12 dokumen — 10 auto-verified, 2 perlu koreksi minor." },
-                { time: "08:45", text: "Generate SPT batch untuk 8 klien. Selesai 2 menit." },
-                { time: "09:00", text: "Auto-reminder WhatsApp ke 5 klien yang belum kirim dokumen." },
-                { time: "09:30", text: "Review 2 SPT yang flagged anomali. Konsultasi via WA." },
-                { time: "10:00", text: "Selesai. 8 SPT filed. Sisa hari untuk advisory." },
+                { time: "08:15", text: "Review 12 dokumen — 10 terverifikasi otomatis, 2 perlu koreksi kecil." },
+                { time: "08:45", text: "Generate SPT batch untuk 8 klien. Selesai dalam 2 menit." },
+                { time: "09:00", text: "Reminder WhatsApp otomatis terkirim ke 5 klien yang belum kirim dokumen." },
+                { time: "09:30", text: "Review 2 SPT yang ditandai anomali. Konsultasi via WhatsApp." },
+                { time: "10:00", text: "Selesai. 8 SPT sudah dilaporkan. Sisa hari untuk advisory." },
               ].map((item) => (
                 <div key={item.time} className="flex gap-3">
                   <div className="flex h-8 w-14 flex-shrink-0 items-center justify-center rounded-lg bg-blue-50 text-xs font-bold text-[var(--primary)]">
@@ -598,10 +598,10 @@ export default function Home() {
               <WaChatBubble from="pajakia" time="08:06">
                 <div className="text-[12px]">
                   📊 <b>Ringkasan pagi ini:</b><br/>
-                  12 dokumen masuk, 10 auto-verified<br/>
+                  12 dokumen masuk, 10 terverifikasi otomatis<br/>
                   2 perlu review manual<br/>
                   <br/>
-                  Buka dashboard → review → approve 🚀
+                  Buka dashboard → review → setujui 🚀
                 </div>
               </WaChatBubble>
             </WaPhoneMockup>
@@ -628,9 +628,9 @@ export default function Home() {
 
       {/* Pricing */}
       <section className="mx-auto max-w-6xl px-6 py-20" id="harga">
-        <h2 className="mb-4 text-center text-3xl font-extrabold">Harga tumbuh bersama bisnis Anda</h2>
+        <h2 className="mb-4 text-center text-3xl font-extrabold">Harga yang tumbuh bersama bisnis Anda</h2>
         <p className="mb-12 text-center text-[var(--text-secondary)]">
-          Bayar sesuai jumlah klien. Selalu di bawah 3% dari revenue Anda. Gratis 14 hari.
+          Bayar sesuai jumlah klien. Selalu di bawah 7% dari pendapatan Anda. Gratis 14 hari.
         </p>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {[
@@ -640,7 +640,7 @@ export default function Home() {
               period: "/bulan",
               clients: "Hingga 10 klien",
               desc: "Konsultan baru memulai",
-              features: ["WhatsApp OCR otomatis", "Dashboard + Kanban board", "Coretax XML generator", "Pre-flight validator", "Auto-generate SPT", "Portal upload klien"],
+              features: ["WhatsApp OCR otomatis", "Dashboard + papan progress SPT", "Generator XML Coretax", "Validator pra-upload", "Generate SPT otomatis", "Portal upload untuk klien"],
               highlight: false,
               roi: "10 klien x Rp 5jt = Rp 50jt/thn. Pajakia: 7%.",
             },
@@ -650,7 +650,7 @@ export default function Home() {
               period: "/bulan",
               clients: "Hingga 25 klien",
               desc: "Paling populer",
-              features: ["Semua fitur Starter", "Batch processing", "Coretax error decoder", "Auto-retry queue", "Browser extension", "Invoice & revenue tracking"],
+              features: ["Semua fitur Starter", "Batch processing", "Coretax error decoder", "Antrian auto-retry", "Browser extension", "Invoice & pelacakan pembayaran"],
               highlight: true,
               roi: "25 klien x Rp 5jt = Rp 125jt/thn. Pajakia: ~6%.",
             },
@@ -660,7 +660,7 @@ export default function Home() {
               period: "/bulan",
               clients: "Hingga 50 klien",
               desc: "Konsultan berkembang",
-              features: ["Semua fitur Pro", "Multi-year history", "Anomaly detection", "Coretax priority queue", "Data export & compliance", "Priority support"],
+              features: ["Semua fitur Pro", "Riwayat multi-tahun", "Deteksi anomali otomatis", "Coretax priority queue", "Export data & compliance", "Dukungan prioritas"],
               highlight: false,
               roi: "50 klien x Rp 5jt = Rp 250jt/thn. Pajakia: ~5%.",
             },
@@ -670,7 +670,7 @@ export default function Home() {
               period: "/bulan",
               clients: "Hingga 100+ klien",
               desc: "Kantor konsultan besar",
-              features: ["Semua fitur Business", "Unlimited klien", "Coretax SLA support", "2FA + audit log wajib", "API access", "Dedicated onboarding"],
+              features: ["Semua fitur Business", "Klien tidak terbatas", "Coretax SLA support", "2FA + audit log wajib", "Akses API", "Onboarding khusus"],
               highlight: false,
               roi: "100 klien x Rp 5jt = Rp 500jt/thn. Pajakia: ~4%.",
             },
@@ -701,8 +701,8 @@ export default function Home() {
         </div>
 
         <div className="mx-auto mt-8 max-w-3xl text-center text-sm text-[var(--text-secondary)]">
-          Semua paket Coretax-Ready: XML generator, validator 22 error, error decoder, auto-retry queue.
-          Plus: enkripsi AES-256, backup harian, audit log lengkap. Tanpa kartu kredit untuk trial.
+          Semua paket sudah Coretax-Ready: generator XML, validator 22 error, error decoder, antrian auto-retry.
+          Dilengkapi enkripsi AES-256, backup harian, dan audit log. Tanpa kartu kredit untuk trial.
         </div>
       </section>
 
@@ -710,11 +710,11 @@ export default function Home() {
       <section className="border-t border-[var(--border)] bg-gradient-to-b from-white to-gray-50">
         <div className="mx-auto max-w-6xl px-6 py-20 text-center">
           <h2 className="mb-4 text-4xl font-extrabold">
-            Coba sekarang — kirim satu bukti potong
+            Coba sekarang — cukup kirim satu bukti potong
           </h2>
           <p className="mx-auto mb-8 max-w-xl text-lg text-[var(--text-secondary)]">
-            Lihat sendiri bagaimana AI membaca dokumen pajak dalam kurang dari 1 menit.
-            Langsung via WhatsApp, gratis, tanpa daftar.
+            Lihat sendiri bagaimana AI membaca dokumen pajak dalam hitungan detik.
+            Langsung via WhatsApp, gratis, tanpa perlu daftar.
           </p>
           <Link
             href="https://wa.me/628131102445?text=Halo%20Pajakia%2C%20mau%20coba%20kirim%20bukti%20potong"
@@ -738,7 +738,7 @@ export default function Home() {
             <div>
               <PajakiaLogo size={24} />
               <div className="mt-1 text-sm text-[var(--text-secondary)]">
-                WhatsApp-first tax processing untuk Indonesia
+                Pemrosesan pajak via WhatsApp untuk konsultan Indonesia
               </div>
             </div>
             <div className="flex items-center gap-6 text-sm text-[var(--text-secondary)]">

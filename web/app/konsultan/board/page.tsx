@@ -60,8 +60,8 @@ export default function FilingBoardPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold">Filing Board</h1>
-          <p className="text-sm text-[var(--text-secondary)]">Drag & drop filing ke status berikutnya</p>
+          <h1 className="text-2xl font-extrabold">Progress SPT Klien</h1>
+          <p className="text-sm text-[var(--text-secondary)]">Drag &amp; drop untuk pindahkan SPT ke status berikutnya</p>
         </div>
         <div className="flex items-center gap-2">
           <label className="text-sm font-medium">Tahun:</label>
@@ -106,11 +106,11 @@ export default function FilingBoardPage() {
       </div>
 
       <div className="rounded-xl border border-[var(--border)] bg-white p-4 shadow-sm">
-        <h3 className="mb-3 font-bold text-sm">Aksi Batch</h3>
+        <h3 className="mb-3 font-bold text-sm">Aksi Massal</h3>
         <div className="flex flex-wrap gap-2">
-          <button className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm hover:bg-gray-50">Approve Semua yang Review</button>
-          <button className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm hover:bg-gray-50">Generate SPT Semua yang Approved</button>
-          <button className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm hover:bg-gray-50">Export Semua yang Filed ke CSV</button>
+          <button className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm hover:bg-gray-50">Setujui Semua yang Sedang Review</button>
+          <button className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm hover:bg-gray-50">Generate SPT untuk Semua yang Disetujui</button>
+          <button className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm hover:bg-gray-50">Export Semua yang Sudah Dilaporkan ke CSV</button>
         </div>
       </div>
     </div>
