@@ -440,25 +440,39 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Browser Extension Card */}
-          <div className="mt-8 grid gap-6 rounded-2xl border-2 border-[var(--primary)] bg-white p-8 md:grid-cols-[auto_1fr] md:items-center">
-            <div className="text-6xl">🧩</div>
-            <div>
-              <div className="mb-1 inline-block rounded-full bg-blue-100 px-3 py-0.5 text-xs font-bold text-blue-800">
-                BROWSER EXTENSION (BARU)
+          {/* Works via web today + Extension coming soon */}
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <div className="rounded-2xl border-2 border-[var(--accent)] bg-emerald-50/40 p-6">
+              <div className="mb-2 inline-block rounded-full bg-emerald-100 px-3 py-0.5 text-xs font-bold text-emerald-800">
+                ✅ SUDAH TERSEDIA
               </div>
-              <h3 className="text-xl font-extrabold">Pajakia Co-Pilot — Chrome Extension</h3>
+              <h3 className="text-lg font-extrabold">Pakai via Web — Tanpa Install</h3>
               <p className="mt-2 text-sm text-[var(--text-secondary)]">
-                Install extension Chrome yang sit di atas Coretax. Auto-fill form dari dashboard Pajakia,
-                decode error inline, auto-save draft setiap 30 detik (Coretax sering timeout!), dan record
-                semua submission untuk audit log.
+                Upload Excel bukti potong → Pajakia generate XML Coretax-ready → download → upload ke DJP.
+                Kalau ditolak Coretax, paste error message → Pajakia kasih tahu cara fix-nya. Semua via browser.
               </p>
               <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                <span className="rounded-full bg-green-50 px-2 py-1 font-semibold text-green-700">✓ Auto-fill form</span>
-                <span className="rounded-full bg-green-50 px-2 py-1 font-semibold text-green-700">✓ Inline error decoder</span>
-                <span className="rounded-full bg-green-50 px-2 py-1 font-semibold text-green-700">✓ Draft auto-save</span>
-                <span className="rounded-full bg-green-50 px-2 py-1 font-semibold text-green-700">✓ Audit log</span>
+                <span className="rounded-full bg-emerald-100 px-2 py-1 font-semibold text-emerald-800">Excel → XML</span>
+                <span className="rounded-full bg-emerald-100 px-2 py-1 font-semibold text-emerald-800">Pre-flight validator</span>
+                <span className="rounded-full bg-emerald-100 px-2 py-1 font-semibold text-emerald-800">Error decoder live</span>
               </div>
+            </div>
+
+            <div className="rounded-2xl border-2 border-dashed border-[var(--border)] bg-white p-6">
+              <div className="mb-2 inline-block rounded-full bg-blue-100 px-3 py-0.5 text-xs font-bold text-blue-800">
+                🧩 COMING SOON
+              </div>
+              <h3 className="text-lg font-extrabold">Chrome Extension Co-Pilot</h3>
+              <p className="mt-2 text-sm text-[var(--text-secondary)]">
+                Sit di atas Coretax langsung — auto-fill form dari dashboard, decode error inline, auto-save draft tiap 30 detik.
+                Daftar waitlist untuk akses early access.
+              </p>
+              <Link
+                href="https://wa.me/628131102445?text=Mau%20daftar%20waitlist%20Chrome%20Extension%20Pajakia"
+                className="mt-3 inline-block rounded-lg bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white hover:bg-[var(--primary-dark)]"
+              >
+                Daftar Waitlist via WhatsApp
+              </Link>
             </div>
           </div>
 

@@ -1,8 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import * as XLSX from "xlsx";
 
 type Tab = "generator" | "validator" | "decoder" | "queue" | "errors";
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
 const KNOWN_ERRORS = [
   { code: "ERR-CT-001", label: "NPWP harus 16 digit", severity: "critical", auto_fixable: true },
@@ -30,10 +33,10 @@ const KNOWN_ERRORS = [
 ];
 
 const MOCK_QUEUE = [
-  { id: "q1", type: "ebupot", status: "succeeded", masa: 2, tahun: 2026, ref: "BPE-2026-002847", retries: 0, when: "5 menit lalu" },
+  { id: "q1", type: "ebupot", status: "succeeded", masa: 2, tahun: 2026, ref: "BPE-2026-002847", retries: 0, when: "5 menit lalu", error: null },
   { id: "q2", type: "efaktur", status: "retrying", masa: 3, tahun: 2026, ref: null, retries: 2, error: "Coretax maintenance — retry in 30 min", when: "1 jam lalu" },
-  { id: "q3", type: "spt_masa_pph21", status: "succeeded", masa: 2, tahun: 2026, ref: "BPE-2026-002831", retries: 0, when: "2 jam lalu" },
-  { id: "q4", type: "ebupot", status: "queued", masa: 3, tahun: 2026, ref: null, retries: 0, when: "3 jam lalu" },
+  { id: "q3", type: "spt_masa_pph21", status: "succeeded", masa: 2, tahun: 2026, ref: "BPE-2026-002831", retries: 0, when: "2 jam lalu", error: null },
+  { id: "q4", type: "ebupot", status: "queued", masa: 3, tahun: 2026, ref: null, retries: 0, when: "3 jam lalu", error: null },
   { id: "q5", type: "efaktur", status: "failed", masa: 1, tahun: 2026, ref: null, retries: 8, error: "Max retries exceeded — manual fix needed", when: "Kemarin" },
 ];
 
@@ -47,12 +50,8 @@ function statusBadge(s: string) {
     cancelled: "bg-gray-100 text-gray-500",
   };
   const labels: Record<string, string> = {
-    queued: "Antri",
-    uploading: "Upload",
-    retrying: "Retry",
-    succeeded: "Berhasil",
-    failed: "Gagal",
-    cancelled: "Batal",
+    queued: "Antri", uploading: "Upload", retrying: "Retry",
+    succeeded: "Berhasil", failed: "Gagal", cancelled: "Batal",
   };
   return (
     <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${styles[s] || styles.queued}`}>
@@ -61,15 +60,90 @@ function statusBadge(s: string) {
   );
 }
 
+/** Required column headers for bukti potong e-Bupot CSV/XLSX */
+const EBUPOT_COLUMNS = [
+  "nama_penerima", "npwp_penerima", "nik_penerima",
+  "kode_objek_pajak", "penghasilan_bruto", "tarif",
+  "pph_dipotong", "nomor_bukti_potong", "tanggal_bukti_potong",
+];
+
+function EBUPOT_TEMPLATE_CSV() {
+  const header = EBUPOT_COLUMNS.join(",");
+  const sample1 = [
+    "Andi Wijaya", "1234567890123456", "3201234567890001",
+    "21-100-01", "180000000", "5",
+    "9000000", "BP-2026-0001", "2026-01-31",
+  ].join(",");
+  const sample2 = [
+    "Siti Rahma", "2345678901234567", "3201234567890002",
+    "21-100-01", "120000000", "5",
+    "6000000", "BP-2026-0002", "2026-01-31",
+  ].join(",");
+  return `${header}\n${sample1}\n${sample2}\n`;
+}
+
+function parseFileToRows(file: File): Promise<Record<string, unknown>[]> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = new Uint8Array(e.target!.result as ArrayBuffer);
+        const wb = XLSX.read(data, { type: "array", cellDates: false, raw: false });
+        const sheet = wb.Sheets[wb.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(sheet, { defval: "", raw: false }) as Record<string, unknown>[];
+        resolve(rows);
+      } catch (err) {
+        reject(err);
+      }
+    };
+    reader.onerror = () => reject(reader.error);
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+function downloadBlob(content: string, filename: string, type: string) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function CoretaxPage() {
   const [tab, setTab] = useState<Tab>("generator");
+
+  // Error Decoder state
   const [errorMsg, setErrorMsg] = useState("");
   const [decoded, setDecoded] = useState<{ title: string; explanation: string; fix: string; severity: string } | null>(null);
-  const [genType, setGenType] = useState<"ebupot" | "efaktur" | "spt_masa_pph21">("ebupot");
-  const [valResult, setValResult] = useState<{ valid: boolean; errors: number; warnings: number; records: number } | null>(null);
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
+  // Generator state
+  const [genRows, setGenRows] = useState<Record<string, unknown>[]>([]);
+  const [genFileName, setGenFileName] = useState("");
+  const [genPemotongNpwp, setGenPemotongNpwp] = useState("");
+  const [genPemotongNama, setGenPemotongNama] = useState("");
+  const [genMasa, setGenMasa] = useState(3);
+  const [genTahun, setGenTahun] = useState(2026);
+  const [genBusy, setGenBusy] = useState(false);
+  const [genError, setGenError] = useState("");
+  const [genSuccess, setGenSuccess] = useState("");
+  const genFileRef = useRef<HTMLInputElement>(null);
 
+  // Validator state
+  const [valXml, setValXml] = useState("");
+  const [valFileName, setValFileName] = useState("");
+  const [valBusy, setValBusy] = useState(false);
+  const [valResult, setValResult] = useState<{
+    is_valid: boolean;
+    total_records: number;
+    errors: Array<{ code: string; label: string; location: string; fix: string; field?: string; value?: string }>;
+    warnings: Array<{ code: string; label: string; location: string; fix: string; field?: string; value?: string }>;
+  } | null>(null);
+  const [valType, setValType] = useState<"ebupot" | "efaktur">("ebupot");
+  const valFileRef = useRef<HTMLInputElement>(null);
+
+  // ---- Error Decoder ----
   async function handleDecode() {
     if (!errorMsg.trim()) return;
     try {
@@ -96,8 +170,114 @@ export default function CoretaxPage() {
     }
   }
 
-  function handleValidate() {
-    setValResult({ valid: false, errors: 3, warnings: 2, records: 47 });
+  // ---- Generator ----
+  async function handleGenFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setGenError("");
+    setGenSuccess("");
+    try {
+      const rows = await parseFileToRows(file);
+      // Validate header
+      if (rows.length === 0) {
+        setGenError("File kosong atau tidak dapat dibaca.");
+        return;
+      }
+      const first = rows[0];
+      const missing = EBUPOT_COLUMNS.filter((c) => !(c in first));
+      if (missing.length > 0) {
+        setGenError(
+          `Kolom wajib hilang: ${missing.join(", ")}. Download template untuk lihat format yang benar.`
+        );
+        return;
+      }
+      setGenRows(rows);
+      setGenFileName(file.name);
+    } catch (err) {
+      setGenError(err instanceof Error ? err.message : "Gagal parse file.");
+    }
+  }
+
+  async function handleGenerate() {
+    if (genRows.length === 0) {
+      setGenError("Upload file dulu.");
+      return;
+    }
+    if (!genPemotongNpwp.trim() || !genPemotongNama.trim()) {
+      setGenError("NPWP dan nama pemotong wajib diisi.");
+      return;
+    }
+    setGenBusy(true);
+    setGenError("");
+    setGenSuccess("");
+    try {
+      const bukti_potong = genRows.map((r) => ({
+        nama_penerima: String(r.nama_penerima || "").trim(),
+        npwp_penerima: String(r.npwp_penerima || "").trim(),
+        nik_penerima: String(r.nik_penerima || "").trim(),
+        kode_objek_pajak: String(r.kode_objek_pajak || "21-100-01").trim(),
+        penghasilan_bruto: Number(String(r.penghasilan_bruto || "0").replace(/[^\d.-]/g, "")) || 0,
+        tarif: Number(String(r.tarif || "5").replace(/[^\d.-]/g, "")) || 5,
+        pph_dipotong: Number(String(r.pph_dipotong || "0").replace(/[^\d.-]/g, "")) || 0,
+        nomor_bukti_potong: String(r.nomor_bukti_potong || "").trim(),
+        tanggal_bukti_potong: String(r.tanggal_bukti_potong || "").trim(),
+      }));
+
+      const res = await fetch(`${API_BASE}/api/v1/coretax/xml/ebupot`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bukti_potong,
+          pemotong_npwp: genPemotongNpwp,
+          pemotong_nama: genPemotongNama,
+          masa: genMasa,
+          tahun: genTahun,
+        }),
+      });
+      if (!res.ok) throw new Error(`API error ${res.status}`);
+      const xml = await res.text();
+      downloadBlob(xml, `ebupot_${genTahun}${String(genMasa).padStart(2, "0")}.xml`, "application/xml");
+      setGenSuccess(`XML dibuat untuk ${bukti_potong.length} bukti potong. File terdownload.`);
+    } catch (err) {
+      setGenError(err instanceof Error ? err.message : "Gagal generate XML.");
+    } finally {
+      setGenBusy(false);
+    }
+  }
+
+  function downloadTemplate() {
+    downloadBlob(EBUPOT_TEMPLATE_CSV(), "template_ebupot.csv", "text/csv");
+  }
+
+  // ---- Validator ----
+  async function handleValFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setValResult(null);
+    const text = await file.text();
+    setValXml(text);
+    setValFileName(file.name);
+  }
+
+  async function handleValidate() {
+    if (!valXml.trim()) {
+      return;
+    }
+    setValBusy(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/coretax/validate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ xml_content: valXml, type: valType }),
+      });
+      if (!res.ok) throw new Error(`API error ${res.status}`);
+      const data = await res.json();
+      setValResult(data);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Gagal validasi.");
+    } finally {
+      setValBusy(false);
+    }
   }
 
   return (
@@ -110,8 +290,27 @@ export default function CoretaxPage() {
           </span>
         </div>
         <p className="text-sm text-[var(--text-secondary)]">
-          Generate XML, validasi sebelum upload, decode error, dan auto-retry — semua dalam satu tempat.
+          Generate XML, validasi sebelum upload, decode error — semua via web, tanpa install apapun.
         </p>
+      </div>
+
+      {/* How it works callout */}
+      <div className="rounded-xl border border-blue-200 bg-blue-50 p-5">
+        <div className="font-bold text-[var(--primary)] text-sm mb-2">Cara pakai (tanpa install)</div>
+        <div className="grid gap-3 md:grid-cols-3 text-sm text-[var(--text)]">
+          <div className="flex items-start gap-2">
+            <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[var(--primary)] text-xs font-bold text-white">1</span>
+            <div>Upload Excel bukti potong Anda di tab Generator → Pajakia auto-sanitize NPWP & tanggal → download XML siap upload.</div>
+          </div>
+          <div className="flex items-start gap-2">
+            <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[var(--primary)] text-xs font-bold text-white">2</span>
+            <div>Upload XML ke <a href="https://coretax.pajak.go.id" target="_blank" rel="noopener noreferrer" className="text-[var(--primary)] underline">coretax.pajak.go.id</a>. Kalau ditolak → copy error message.</div>
+          </div>
+          <div className="flex items-start gap-2">
+            <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[var(--primary)] text-xs font-bold text-white">3</span>
+            <div>Paste error di tab Error Decoder → Pajakia kasih tahu tepatnya apa yang salah + cara fix-nya.</div>
+          </div>
+        </div>
       </div>
 
       {/* Stats */}
@@ -151,140 +350,227 @@ export default function CoretaxPage() {
         ))}
       </div>
 
-      {/* Tab Content */}
+      {/* Generator */}
       {tab === "generator" && (
-        <div className="rounded-xl border border-[var(--border)] bg-white p-6">
-          <h3 className="mb-1 text-lg font-bold">Generate XML untuk Coretax</h3>
-          <p className="mb-4 text-sm text-[var(--text-secondary)]">
-            Pajakia auto-format XML sesuai schema Coretax v1.0. NPWP otomatis dipad 16 digit, tanggal di-convert ke ISO,
-            karakter terlarang dihapus.
-          </p>
-
-          <div className="mb-4 grid gap-3 sm:grid-cols-3">
-            {[
-              { id: "ebupot" as const, label: "e-Bupot Unifikasi", desc: "PPh 21, 23, 26, 4(2)", icon: "📋" },
-              { id: "efaktur" as const, label: "e-Faktur PPN", desc: "Pajak Pertambahan Nilai", icon: "🧾" },
-              { id: "spt_masa_pph21" as const, label: "SPT Masa PPh 21", desc: "Pemotongan bulanan", icon: "👥" },
-            ].map((t) => (
-              <button
-                key={t.id}
-                onClick={() => setGenType(t.id)}
-                className={`rounded-lg border p-4 text-left transition-all ${
-                  genType === t.id
-                    ? "border-2 border-[var(--primary)] bg-blue-50"
-                    : "border-[var(--border)] hover:border-[var(--primary)]"
-                }`}
-              >
-                <div className="mb-2 text-2xl">{t.icon}</div>
-                <div className="font-semibold text-sm">{t.label}</div>
-                <div className="mt-0.5 text-xs text-[var(--text-secondary)]">{t.desc}</div>
-              </button>
-            ))}
+        <div className="rounded-xl border border-[var(--border)] bg-white p-6 space-y-4">
+          <div>
+            <h3 className="text-lg font-bold">Generate e-Bupot XML dari Excel</h3>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Upload file Excel/CSV bukti potong Anda. Pajakia auto-sanitize NPWP (fix bug Excel scientific notation),
+              format tanggal ke ISO, dan hapus karakter terlarang — lalu generate XML Coretax-ready.
+            </p>
           </div>
 
-          <div className="rounded-lg bg-gray-50 p-4">
-            <div className="mb-2 text-xs font-semibold text-[var(--text-secondary)]">SUMBER DATA</div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <button className="rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-left hover:border-[var(--primary)]">
-                <div className="font-medium text-sm">📄 Dari dokumen yang sudah diverifikasi</div>
-                <div className="text-xs text-[var(--text-secondary)]">47 dokumen siap di-generate</div>
-              </button>
-              <button className="rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-left hover:border-[var(--primary)]">
-                <div className="font-medium text-sm">📊 Upload Excel/CSV</div>
-                <div className="text-xs text-[var(--text-secondary)]">Pajakia auto-sanitize sebelum convert</div>
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-4 flex items-center justify-between rounded-lg bg-blue-50 p-4">
+          {/* Template download */}
+          <div className="rounded-lg bg-gray-50 p-4 flex items-center justify-between">
             <div>
-              <div className="text-sm font-semibold">Periode</div>
-              <div className="text-xs text-[var(--text-secondary)]">Pilih masa dan tahun pajak</div>
+              <div className="text-sm font-semibold">Belum punya template?</div>
+              <div className="text-xs text-[var(--text-secondary)]">
+                Download template CSV dengan kolom yang benar + 2 baris contoh.
+              </div>
             </div>
-            <div className="flex gap-2">
-              <select className="rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-sm">
-                <option>Januari</option><option>Februari</option><option>Maret</option>
-                <option>April</option><option>Mei</option><option>Juni</option>
-                <option>Juli</option><option>Agustus</option><option>September</option>
-                <option>Oktober</option><option>November</option><option>Desember</option>
+            <button
+              onClick={downloadTemplate}
+              className="rounded-lg border border-[var(--border)] bg-white px-4 py-2 text-sm font-semibold hover:bg-gray-100"
+            >
+              📥 Download Template
+            </button>
+          </div>
+
+          {/* File upload */}
+          <div>
+            <label className="block text-sm font-medium mb-2">1. Upload file bukti potong</label>
+            <div
+              onClick={() => genFileRef.current?.click()}
+              className="rounded-lg border-2 border-dashed border-[var(--border)] p-6 text-center cursor-pointer hover:border-[var(--primary)] hover:bg-blue-50"
+            >
+              <div className="text-3xl mb-1">📁</div>
+              <div className="font-semibold text-sm">{genFileName || "Klik untuk upload Excel/CSV"}</div>
+              <div className="text-xs text-[var(--text-secondary)] mt-1">
+                Kolom wajib: {EBUPOT_COLUMNS.join(", ")}
+              </div>
+              <input
+                ref={genFileRef}
+                type="file"
+                accept=".csv,.xlsx,.xls"
+                className="hidden"
+                onChange={handleGenFile}
+              />
+            </div>
+            {genRows.length > 0 && (
+              <div className="mt-2 rounded-lg bg-green-50 p-3 text-sm text-green-800">
+                ✅ {genRows.length} baris terbaca dari <strong>{genFileName}</strong>
+              </div>
+            )}
+          </div>
+
+          {/* Pemotong details */}
+          <div>
+            <label className="block text-sm font-medium mb-2">2. Data pemotong</label>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <input
+                type="text"
+                placeholder="NPWP Pemotong (16 digit)"
+                value={genPemotongNpwp}
+                onChange={(e) => setGenPemotongNpwp(e.target.value)}
+                className="rounded-lg border border-[var(--border)] px-3 py-2 text-sm"
+              />
+              <input
+                type="text"
+                placeholder="Nama Pemotong"
+                value={genPemotongNama}
+                onChange={(e) => setGenPemotongNama(e.target.value)}
+                className="rounded-lg border border-[var(--border)] px-3 py-2 text-sm"
+              />
+            </div>
+          </div>
+
+          {/* Period */}
+          <div>
+            <label className="block text-sm font-medium mb-2">3. Periode pajak</label>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <select
+                value={genMasa}
+                onChange={(e) => setGenMasa(Number(e.target.value))}
+                className="rounded-lg border border-[var(--border)] px-3 py-2 text-sm"
+              >
+                {["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"].map((n, i) => (
+                  <option key={i} value={i + 1}>{n} ({String(i + 1).padStart(2, "0")})</option>
+                ))}
               </select>
-              <select className="rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-sm">
-                <option>2026</option><option>2025</option><option>2024</option>
+              <select
+                value={genTahun}
+                onChange={(e) => setGenTahun(Number(e.target.value))}
+                className="rounded-lg border border-[var(--border)] px-3 py-2 text-sm"
+              >
+                {[2026, 2025, 2024].map((y) => (<option key={y} value={y}>{y}</option>))}
               </select>
             </div>
           </div>
 
-          <div className="mt-6 flex gap-2">
-            <button className="flex-1 rounded-lg bg-[var(--primary)] px-4 py-3 text-sm font-semibold text-white hover:bg-[var(--primary-dark)]">
-              Generate XML
-            </button>
-            <button className="rounded-lg border border-[var(--border)] px-4 py-3 text-sm font-semibold hover:bg-gray-50">
-              Preview
-            </button>
-          </div>
+          {genError && (
+            <div className="rounded-lg bg-red-50 p-3 text-sm text-red-800">❌ {genError}</div>
+          )}
+          {genSuccess && (
+            <div className="rounded-lg bg-green-50 p-3 text-sm text-green-800">✅ {genSuccess}</div>
+          )}
+
+          <button
+            onClick={handleGenerate}
+            disabled={genBusy || genRows.length === 0}
+            className="w-full rounded-lg bg-[var(--primary)] px-4 py-3 text-sm font-semibold text-white hover:bg-[var(--primary-dark)] disabled:bg-gray-300 disabled:cursor-not-allowed"
+          >
+            {genBusy ? "Generating..." : `Generate XML (${genRows.length} bukti potong)`}
+          </button>
         </div>
       )}
 
+      {/* Validator */}
       {tab === "validator" && (
-        <div className="rounded-xl border border-[var(--border)] bg-white p-6">
-          <h3 className="mb-1 text-lg font-bold">Pre-flight Validator</h3>
-          <p className="mb-4 text-sm text-[var(--text-secondary)]">
-            Cek file XML terhadap 22 error Coretax yang sudah dikenal — sebelum upload, bukan setelah ditolak.
-          </p>
-
-          <div className="rounded-lg border-2 border-dashed border-[var(--border)] p-8 text-center">
-            <div className="mb-2 text-4xl">📁</div>
-            <div className="font-semibold">Drop file XML di sini atau klik untuk pilih</div>
-            <div className="mt-1 text-xs text-[var(--text-secondary)]">
-              Mendukung: e-Bupot XML, e-Faktur XML, SPT Masa PPh 21 XML
-            </div>
-            <button
-              onClick={handleValidate}
-              className="mt-4 rounded-lg bg-[var(--primary)] px-6 py-2 text-sm font-semibold text-white"
-            >
-              Validate Sekarang
-            </button>
+        <div className="rounded-xl border border-[var(--border)] bg-white p-6 space-y-4">
+          <div>
+            <h3 className="text-lg font-bold">Pre-flight Validator</h3>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Upload XML yang mau Anda kirim ke Coretax. Pajakia cek 22 error yang dikenal — sebelum Coretax menolaknya.
+            </p>
           </div>
 
+          <div className="flex gap-2">
+            <label className="text-sm">Jenis file:</label>
+            <select
+              value={valType}
+              onChange={(e) => setValType(e.target.value as "ebupot" | "efaktur")}
+              className="rounded-lg border border-[var(--border)] px-3 py-1 text-sm"
+            >
+              <option value="ebupot">e-Bupot</option>
+              <option value="efaktur">e-Faktur</option>
+            </select>
+          </div>
+
+          <div
+            onClick={() => valFileRef.current?.click()}
+            className="rounded-lg border-2 border-dashed border-[var(--border)] p-8 text-center cursor-pointer hover:border-[var(--primary)] hover:bg-blue-50"
+          >
+            <div className="text-4xl mb-2">📄</div>
+            <div className="font-semibold">{valFileName || "Upload XML file"}</div>
+            <div className="text-xs text-[var(--text-secondary)] mt-1">
+              Klik untuk pilih file
+            </div>
+            <input
+              ref={valFileRef}
+              type="file"
+              accept=".xml,text/xml"
+              className="hidden"
+              onChange={handleValFile}
+            />
+          </div>
+
+          <button
+            onClick={handleValidate}
+            disabled={valBusy || !valXml}
+            className="w-full rounded-lg bg-[var(--primary)] px-4 py-3 text-sm font-semibold text-white hover:bg-[var(--primary-dark)] disabled:bg-gray-300"
+          >
+            {valBusy ? "Validasi..." : "Validate Sekarang"}
+          </button>
+
           {valResult && (
-            <div className="mt-4 rounded-lg border border-[var(--border)] p-4">
-              <div className="mb-3 flex items-center gap-3">
-                <span className={`rounded-full px-3 py-1 text-xs font-bold ${valResult.valid ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                  {valResult.valid ? "✅ VALID" : "❌ DITOLAK"}
+            <div className="rounded-lg border border-[var(--border)] p-4 space-y-3">
+              <div className="flex items-center gap-3">
+                <span className={`rounded-full px-3 py-1 text-xs font-bold ${valResult.is_valid ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                  {valResult.is_valid ? "✅ VALID — siap upload" : "❌ DITOLAK"}
                 </span>
                 <div className="text-sm">
-                  <strong>{valResult.records}</strong> record diperiksa,{" "}
-                  <strong className="text-red-600">{valResult.errors}</strong> error,{" "}
-                  <strong className="text-yellow-600">{valResult.warnings}</strong> warning
+                  <strong>{valResult.total_records}</strong> record diperiksa,{" "}
+                  <strong className="text-red-600">{valResult.errors.length}</strong> error,{" "}
+                  <strong className="text-yellow-600">{valResult.warnings.length}</strong> warning
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <div className="rounded-lg bg-red-50 p-3 text-sm">
-                  <div className="font-semibold text-red-800">❌ ERR-CT-013: Nomor bukti potong duplikat</div>
-                  <div className="text-xs text-red-700">Lokasi: BuktiPotong[14], BuktiPotong[27]</div>
-                  <div className="mt-1 text-xs text-red-600">Fix: Pajakia auto-generate nomor unik. Klik &quot;Auto-Fix&quot;.</div>
+              {valResult.errors.length > 0 && (
+                <div className="space-y-2">
+                  {valResult.errors.map((err, i) => (
+                    <div key={i} className="rounded-lg bg-red-50 p-3 text-sm">
+                      <div className="font-semibold text-red-800">❌ {err.code}: {err.label}</div>
+                      <div className="text-xs text-red-700">
+                        Lokasi: <code>{err.location}</code>
+                        {err.field && <> | Field: <code>{err.field}</code></>}
+                        {err.value && <> | Value: <code>{err.value}</code></>}
+                      </div>
+                      <div className="mt-1 text-xs text-red-600">Fix: {err.fix}</div>
+                    </div>
+                  ))}
                 </div>
-                <div className="rounded-lg bg-red-50 p-3 text-sm">
-                  <div className="font-semibold text-red-800">❌ ERR-CT-001: NPWP harus 16 digit</div>
-                  <div className="text-xs text-red-700">Lokasi: BuktiPotong[3].Penerima.NPWP, value: &quot;01234567890123&quot;</div>
-                  <div className="mt-1 text-xs text-red-600">Fix: Auto-pad ke 16 digit (tambah 0 di depan).</div>
-                </div>
-                <div className="rounded-lg bg-yellow-50 p-3 text-sm">
-                  <div className="font-semibold text-yellow-800">⚠️ ERR-CT-012: PPh tidak sesuai DPP × Tarif</div>
-                  <div className="text-xs text-yellow-700">Lokasi: BuktiPotong[8], expected 750000, got 745000</div>
-                  <div className="mt-1 text-xs text-yellow-600">Selisih 5000. Cek apakah perhitungan benar.</div>
-                </div>
-              </div>
+              )}
 
-              <button className="mt-4 w-full rounded-lg bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-700">
-                🔧 Auto-Fix Semua Error (3 dapat diperbaiki otomatis)
-              </button>
+              {valResult.warnings.length > 0 && (
+                <div className="space-y-2">
+                  {valResult.warnings.map((w, i) => (
+                    <div key={i} className="rounded-lg bg-yellow-50 p-3 text-sm">
+                      <div className="font-semibold text-yellow-800">⚠️ {w.code}: {w.label}</div>
+                      <div className="text-xs text-yellow-700">
+                        Lokasi: <code>{w.location}</code>
+                        {w.value && <> | {w.value}</>}
+                      </div>
+                      <div className="mt-1 text-xs text-yellow-600">Fix: {w.fix}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {valResult.is_valid && valResult.errors.length === 0 && (
+                <div className="rounded-lg bg-green-50 p-3 text-sm text-green-800">
+                  🎉 File bersih! Silakan upload ke{" "}
+                  <a href="https://coretax.pajak.go.id" target="_blank" rel="noopener noreferrer" className="underline font-semibold">
+                    coretax.pajak.go.id
+                  </a>.
+                </div>
+              )}
             </div>
           )}
         </div>
       )}
 
+      {/* Error Decoder */}
       {tab === "decoder" && (
         <div className="rounded-xl border border-[var(--border)] bg-white p-6">
           <h3 className="mb-1 text-lg font-bold">Coretax Error Decoder</h3>
@@ -308,9 +594,7 @@ export default function CoretaxPage() {
 
           {decoded && (
             <div className={`mt-4 rounded-lg border-2 p-4 ${
-              decoded.severity === "critical"
-                ? "border-red-200 bg-red-50"
-                : "border-yellow-200 bg-yellow-50"
+              decoded.severity === "critical" ? "border-red-200 bg-red-50" : "border-yellow-200 bg-yellow-50"
             }`}>
               <div className="mb-2 flex items-center gap-2">
                 <span className="text-2xl">{decoded.severity === "critical" ? "🚨" : "⚠️"}</span>
@@ -329,20 +613,17 @@ export default function CoretaxPage() {
         </div>
       )}
 
+      {/* Queue */}
       {tab === "queue" && (
         <div className="rounded-xl border border-[var(--border)] bg-white">
           <div className="flex items-center justify-between border-b border-[var(--border)] px-6 py-4">
             <div>
               <h3 className="text-lg font-bold">Retry Queue</h3>
               <p className="text-sm text-[var(--text-secondary)]">
-                Submission yang gagal upload akan auto-retry dengan exponential backoff
+                Tracking otomatis untuk submission yang pernah gagal (coming soon — akan aktif setelah database terhubung)
               </p>
             </div>
-            <button className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm hover:bg-gray-50">
-              🔄 Retry Semua
-            </button>
           </div>
-
           <table className="w-full">
             <thead>
               <tr className="border-b border-[var(--border)] bg-gray-50">
@@ -380,13 +661,13 @@ export default function CoretaxPage() {
         </div>
       )}
 
+      {/* 22 Error Catalog */}
       {tab === "errors" && (
         <div className="rounded-xl border border-[var(--border)] bg-white p-6">
           <h3 className="mb-1 text-lg font-bold">22 Error Coretax (Database Pajakia)</h3>
           <p className="mb-4 text-sm text-[var(--text-secondary)]">
             Semua error yang sudah dikenal dan punya solusi otomatis di Pajakia. Sumber: DJP + komunitas konsultan.
           </p>
-
           <div className="space-y-2">
             {KNOWN_ERRORS.map((e) => (
               <div key={e.code} className="flex items-start gap-3 rounded-lg border border-[var(--border)] p-3">
@@ -411,28 +692,6 @@ export default function CoretaxPage() {
           </div>
         </div>
       )}
-
-      {/* Browser Extension Promo */}
-      <div className="rounded-xl border-2 border-[var(--primary)] bg-gradient-to-r from-blue-50 to-indigo-50 p-6">
-        <div className="flex items-start gap-4">
-          <div className="text-4xl">🧩</div>
-          <div className="flex-1">
-            <h3 className="font-bold">Pajakia Browser Extension</h3>
-            <p className="mt-1 text-sm text-[var(--text-secondary)]">
-              Install Chrome extension untuk auto-fill form Coretax langsung dari dashboard, decode error inline,
-              dan auto-save draft setiap 30 detik (Coretax sering timeout!).
-            </p>
-            <div className="mt-3 flex gap-2">
-              <button className="rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-semibold text-white">
-                Download Extension (.crx)
-              </button>
-              <button className="rounded-lg border border-[var(--border)] bg-white px-4 py-2 text-sm font-semibold">
-                Lihat Cara Install
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
