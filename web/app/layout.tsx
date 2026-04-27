@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Pajakia — WhatsApp Tax Processing untuk Konsultan Pajak",
+  title: "Pajakia — Coretax Co-Pilot untuk Konsultan Pajak",
   description:
-    "Klien kirim foto dokumen via WhatsApp, AI baca otomatis. Untuk konsultan pajak Indonesia.",
+    "Generator XML, validator pra-upload, dan error decoder Coretax untuk konsultan pajak Indonesia.",
   icons: {
     icon: "/favicon.svg",
   },
   openGraph: {
-    title: "Pajakia — WhatsApp Tax Processing untuk Konsultan Pajak",
-    description: "Foto bukti potong, SPT langsung jadi. AI-powered tax processing via WhatsApp.",
+    title: "Pajakia — Coretax Co-Pilot untuk Konsultan Pajak",
+    description: "Generator XML, validator pra-upload, dan error decoder Coretax untuk konsultan pajak Indonesia.",
     type: "website",
   },
 };

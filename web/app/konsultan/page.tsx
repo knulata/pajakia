@@ -12,10 +12,10 @@ const mockStats = {
 };
 
 const urgentDeadlines = [
-  { client: "PT Maju Bersama", type: "SPT Masa PPN", date: "25 Mar 2026", days: -2, status: "overdue" },
-  { client: "CV Sinar Abadi", type: "SPT Masa PPh 21", date: "20 Mar 2026", days: -7, status: "overdue" },
-  { client: "Budi Santoso", type: "SPT Tahunan OP", date: "31 Mar 2026", days: 6, status: "due_soon" },
-  { client: "PT Karya Digital", type: "SPT Masa PPh 23", date: "20 Apr 2026", days: 26, status: "upcoming" },
+  { client: "PT Maju Bersama", type: "SPT Masa PPN", date: "30 Apr 2026", days: 3, status: "due_soon" },
+  { client: "CV Sinar Abadi", type: "SPT Masa PPh 21", date: "20 Apr 2026", days: -7, status: "overdue" },
+  { client: "Budi Santoso", type: "Pembetulan SPT Tahunan OP", date: "3 Mei 2026", days: 6, status: "due_soon" },
+  { client: "PT Karya Digital", type: "SPT Masa PPh 23", date: "20 Mei 2026", days: 23, status: "upcoming" },
 ];
 
 const recentActivity = [

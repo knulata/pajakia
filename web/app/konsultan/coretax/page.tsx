@@ -40,6 +40,46 @@ const MOCK_QUEUE = [
   { id: "q5", type: "efaktur", status: "failed", masa: 1, tahun: 2026, ref: null, retries: 8, error: "Max retries exceeded — manual fix needed", when: "Kemarin" },
 ];
 
+const SAMPLE_ERRORS = [
+  "Invalid NPWP format in row 14, 15 digits only",
+  "Service unavailable 503 maintenance",
+  "PPh dipotong tidak sesuai DPP x Tarif pada baris 8",
+];
+
+function fallbackDecodeError(message: string) {
+  const lower = message.toLowerCase();
+  if (lower.includes("npwp") || lower.includes("15 digit")) {
+    return {
+      title: "NPWP tidak sesuai format Coretax",
+      explanation: "Coretax mewajibkan NPWP/NIK 16 digit. Error ini biasanya muncul karena NPWP lama 15 digit atau angka berubah saat dibuka di Excel.",
+      fix: "Cek baris yang disebutkan, pastikan NPWP disimpan sebagai teks 16 digit. Pajakia bisa membantu sanitasi sebelum XML dibuat.",
+      severity: "critical",
+    };
+  }
+  if (lower.includes("503") || lower.includes("service unavailable") || lower.includes("maintenance")) {
+    return {
+      title: "Coretax sedang tidak stabil atau maintenance",
+      explanation: "File Anda belum tentu salah. Error 503 berarti layanan Coretax tidak tersedia sementara.",
+      fix: "Jangan ubah data dulu. Simpan submission dan coba ulang berkala. Pajakia Auto-Retry akan mengantrekan submission saat database pilot aktif.",
+      severity: "warning",
+    };
+  }
+  if (lower.includes("pph") || lower.includes("tarif") || lower.includes("dpp")) {
+    return {
+      title: "Nilai pajak tidak cocok dengan dasar pengenaan dan tarif",
+      explanation: "Coretax menolak jika angka PPh dipotong berbeda dari hasil perhitungan berdasarkan DPP/penghasilan bruto dan tarif.",
+      fix: "Cek DPP, tarif, dan pembulatan. Jalankan validator pra-upload sebelum mengirim ulang ke Coretax.",
+      severity: "warning",
+    };
+  }
+  return {
+    title: "Error belum dikenali otomatis",
+    explanation: "Pajakia belum menemukan pola spesifik dari pesan error ini.",
+    fix: "Salin pesan lengkap beserta baris/field yang disebut Coretax, lalu cek tab 22 Error Catalog untuk kemungkinan penyebab.",
+    severity: "warning",
+  };
+}
+
 function statusBadge(s: string) {
   const styles: Record<string, string> = {
     queued: "bg-blue-100 text-blue-800",
@@ -161,12 +201,7 @@ export default function CoretaxPage() {
         severity: data.severity || "warning",
       });
     } catch {
-      setDecoded({
-        title: "Koneksi gagal",
-        explanation: "Tidak dapat terhubung ke Pajakia API.",
-        fix: "Cek koneksi internet dan coba lagi.",
-        severity: "warning",
-      });
+      setDecoded(fallbackDecodeError(errorMsg));
     }
   }
 
@@ -292,6 +327,49 @@ export default function CoretaxPage() {
         <p className="text-sm text-[var(--text-secondary)]">
           Generate XML, validasi sebelum upload, terjemahkan error — semua lewat browser, tanpa perlu install apapun.
         </p>
+      </div>
+
+      <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-5">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <div className="text-sm font-bold text-emerald-900">Demo 3 menit untuk konsultan pajak</div>
+            <p className="mt-1 text-sm text-emerald-800">
+              Mulai dari tab Error Decoder, klik salah satu contoh error, lalu tunjukkan Generator XML dan Validator. Ini adalah wedge paling kuat untuk pilot.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setTab("decoder")}
+              className="rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-700"
+            >
+              Buka Error Decoder
+            </button>
+            <button
+              onClick={() => {
+                setTab("generator");
+                setGenPemotongNpwp("0123456789012345");
+                setGenPemotongNama("PT Contoh Konsultan Pajak");
+                setGenRows([
+                  {
+                    nama_penerima: "Andi Wijaya",
+                    npwp_penerima: "1234567890123456",
+                    nik_penerima: "3201234567890001",
+                    kode_objek_pajak: "21-100-01",
+                    penghasilan_bruto: "180000000",
+                    tarif: "5",
+                    pph_dipotong: "9000000",
+                    nomor_bukti_potong: "BP-2026-0001",
+                    tanggal_bukti_potong: "2026-04-30",
+                  },
+                ]);
+                setGenFileName("contoh_ebupot_demo.csv");
+              }}
+              className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs font-semibold text-emerald-800 hover:bg-emerald-100"
+            >
+              Isi contoh generator
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* How it works callout */}
@@ -585,6 +663,17 @@ export default function CoretaxPage() {
             rows={4}
             className="w-full rounded-lg border border-[var(--border)] px-4 py-3 text-sm focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-blue-100"
           />
+          <div className="mt-2 flex flex-wrap gap-2">
+            {SAMPLE_ERRORS.map((sample) => (
+              <button
+                key={sample}
+                onClick={() => setErrorMsg(sample)}
+                className="rounded-full border border-[var(--border)] bg-gray-50 px-3 py-1 text-xs font-medium text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
+              >
+                {sample}
+              </button>
+            ))}
+          </div>
           <button
             onClick={handleDecode}
             className="mt-3 rounded-lg bg-[var(--primary)] px-6 py-2 text-sm font-semibold text-white hover:bg-[var(--primary-dark)]"

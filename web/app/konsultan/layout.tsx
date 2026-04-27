@@ -77,6 +77,31 @@ export default function ConsultantLayout({
           })}
         </div>
 
+        <div className="mb-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+              <div className="text-sm font-bold text-blue-900">Mode demo konsultan</div>
+              <p className="text-xs text-blue-800">
+                Data di dashboard ini adalah contoh. Fitur yang bisa dicoba langsung: Coretax XML generator, validator, error decoder, dan kalkulator PPh 21.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href="/konsultan/coretax"
+                className="rounded-lg bg-[var(--primary)] px-3 py-2 text-xs font-semibold text-white hover:bg-[var(--primary-dark)]"
+              >
+                Mulai demo Coretax
+              </Link>
+              <Link
+                href="https://wa.me/628131102445?text=Halo%20Pajakia%2C%20saya%20mau%20ikut%20pilot%20konsultan%20pajak"
+                className="rounded-lg border border-blue-300 bg-white px-3 py-2 text-xs font-semibold text-blue-800 hover:bg-blue-100"
+              >
+                Ikut pilot
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {children}
       </div>
     </div>

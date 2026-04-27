@@ -148,31 +148,30 @@ export default function Home() {
               <span>💬</span> Proses Pajak via WhatsApp
             </div>
             <h1 className="mb-6 text-4xl font-extrabold leading-tight tracking-tight text-[var(--text)] md:text-5xl lg:text-6xl">
-              Foto bukti potong.
+              Coretax error.
               <br />
-              <span className="text-[var(--primary)]">SPT langsung jadi.</span>
+              <span className="text-[var(--primary)]">Langsung tahu solusinya.</span>
             </h1>
             <p className="mb-8 text-lg text-[var(--text-secondary)]">
-              Klien kirim foto dokumen pajak via WhatsApp. AI baca semua data dalam kurang dari 1 menit.
-              Anda tinggal review di dashboard. Tidak perlu input manual. Tidak perlu app baru.
+              Pajakia mengurangi pekerjaan input manual untuk konsultan pajak: mulai dari Coretax XML,
+              validasi pra-upload, error decoder, sampai alur WhatsApp untuk klien. Demo hari ini bisa dicoba langsung lewat browser.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
               <Link
-                href="https://wa.me/628131102445?text=Halo%20Pajakia%2C%20mau%20coba%20kirim%20bukti%20potong"
-                className="flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-8 py-4 text-lg font-bold text-white shadow-lg hover:bg-[#1da851] hover:shadow-xl transition-all"
+                href="/konsultan/coretax"
+                className="flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-8 py-4 text-lg font-bold text-white shadow-lg hover:bg-[var(--primary-dark)] hover:shadow-xl transition-all"
               >
-                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                Kirim Bukti Potong Sekarang
+                Coba Coretax Co-Pilot
               </Link>
               <Link
-                href="#cara-kerja"
+                href="https://wa.me/628131102445?text=Halo%20Pajakia%2C%20saya%20konsultan%20pajak%20dan%20mau%20ikut%20pilot"
                 className="flex items-center justify-center rounded-xl border-2 border-[var(--border)] px-8 py-4 text-lg font-bold text-[var(--text)] hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all"
               >
-                Lihat Cara Kerja →
+                Ikut Pilot →
               </Link>
             </div>
             <p className="mt-3 text-sm text-[var(--text-secondary)]">
-              Gratis untuk 3 dokumen pertama. Tanpa perlu install aplikasi apapun.
+              Untuk demo: XML generator, validator, error decoder, dashboard, dan kalkulator sudah bisa dicoba.
             </p>
           </div>
 
@@ -387,7 +386,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6 py-20">
           <div className="text-center">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-sm font-semibold text-red-700">
-              🚨 March 2026: Coretax Bermasalah
+              🚨 Coretax Co-Pilot untuk musim pelaporan 2026
             </div>
             <h2 className="mb-4 text-3xl font-extrabold md:text-4xl">
               Coretax error? <span className="text-[var(--primary)]">Pajakia yang urus.</span>
@@ -404,7 +403,7 @@ export default function Home() {
               <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-2xl">🛠️</div>
               <h3 className="mb-2 font-bold">Generator XML</h3>
               <p className="text-sm text-[var(--text-secondary)]">
-                Coretax wajib format XML. Pajakia generate otomatis dari data OCR — e-Bupot, e-Faktur, SPT Masa.
+                Coretax wajib format XML. Pajakia generate otomatis dari Excel bukti potong — e-Bupot, e-Faktur, SPT Masa.
                 NPWP dipadkan ke 16 digit, tanggal diubah ke format ISO, karakter terlarang dihapus.
               </p>
             </div>
@@ -514,8 +513,8 @@ export default function Home() {
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[
-              { icon: "📋", title: "Papan Progress SPT", desc: "Lihat semua SPT klien per status. Drag & drop dari Draft → Review → Selesai Lapor. Tidak ada yang terlewat." },
-              { icon: "🔍", title: "Verifikasi Side-by-Side", desc: "Dokumen asli di kiri, data OCR di kanan. Field confidence rendah di-highlight merah. Edit langsung, klik Verifikasi." },
+              { icon: "📋", title: "Papan Progress SPT", desc: "Lihat semua SPT klien per status. Draft → Review → Selesai Lapor. Tidak ada yang terlewat." },
+              { icon: "🔍", title: "Verifikasi Side-by-Side", desc: "Dokumen asli di kiri, hasil ekstraksi di kanan. Field confidence rendah di-highlight merah. Edit langsung, klik Verifikasi." },
               { icon: "📅", title: "Deadline + Auto-Reminder", desc: "Semua deadline klien di satu tempat. Priority score otomatis. Reminder WhatsApp ke klien yang telat kirim dokumen." },
               { icon: "⚡", title: "Batch Processing", desc: "Upload 50 dokumen sekaligus. Generate SPT untuk 20 klien dalam satu klik. Import klien dari Excel." },
               { icon: "💰", title: "Invoice & Pendapatan", desc: "Buat invoice, pantau pembayaran, lihat MRR. Anda menjalankan bisnis, bukan cuma mengerjakan pajak." },
@@ -640,7 +639,7 @@ export default function Home() {
               period: "/bulan",
               clients: "Hingga 10 klien",
               desc: "Konsultan baru memulai",
-              features: ["WhatsApp OCR otomatis", "Dashboard + papan progress SPT", "Generator XML Coretax", "Validator pra-upload", "Generate SPT otomatis", "Portal upload untuk klien"],
+              features: ["Dashboard + papan progress SPT", "Generator XML Coretax", "Validator pra-upload", "Error decoder", "Portal upload untuk klien", "Setup WhatsApp saat onboarding"],
               highlight: false,
               roi: "10 klien x Rp 5jt = Rp 50jt/thn. Pajakia: 7%.",
             },
@@ -650,7 +649,7 @@ export default function Home() {
               period: "/bulan",
               clients: "Hingga 25 klien",
               desc: "Paling populer",
-              features: ["Semua fitur Starter", "Batch processing", "Coretax error decoder", "Antrian auto-retry", "Browser extension", "Invoice & pelacakan pembayaran"],
+              features: ["Semua fitur Starter", "Batch processing", "Antrian auto-retry", "Invoice & pelacakan pembayaran", "Prioritas fitur WhatsApp", "Training tim"],
               highlight: true,
               roi: "25 klien x Rp 5jt = Rp 125jt/thn. Pajakia: ~6%.",
             },
@@ -691,7 +690,7 @@ export default function Home() {
               </ul>
               <div className="mt-4 rounded-lg bg-gray-50 p-2 text-center text-[10px] text-[var(--text-secondary)]">{plan.roi}</div>
               <Link
-                href="https://wa.me/628131102445?text=Mau%20coba%20Pajakia%20paket%20{plan.name}"
+                href={`https://wa.me/628131102445?text=${encodeURIComponent(`Halo Pajakia, saya konsultan pajak dan mau coba pilot paket ${plan.name}.`)}`}
                 className={`mt-4 block rounded-lg py-2.5 text-center text-sm font-semibold transition-colors ${plan.highlight ? "bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)]" : "border border-[var(--border)] hover:border-[var(--primary)] hover:text-[var(--primary)]"}`}
               >
                 Coba Gratis 14 Hari
@@ -717,11 +716,11 @@ export default function Home() {
             Langsung via WhatsApp, gratis, tanpa perlu daftar.
           </p>
           <Link
-            href="https://wa.me/628131102445?text=Halo%20Pajakia%2C%20mau%20coba%20kirim%20bukti%20potong"
+            href="https://wa.me/628131102445?text=Halo%20Pajakia%2C%20saya%20mau%20jadwalkan%20demo%2020%20menit"
             className="inline-flex items-center gap-3 rounded-2xl bg-[#25D366] px-10 py-5 text-xl font-bold text-white shadow-xl hover:bg-[#1da851] hover:shadow-2xl transition-all"
           >
             <svg viewBox="0 0 24 24" className="h-7 w-7 fill-current"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            Kirim Bukti Potong via WhatsApp
+            Jadwalkan Demo 20 Menit
           </Link>
           <div className="mt-4 flex items-center justify-center gap-6 text-sm text-[var(--text-secondary)]">
             <span>🔒 Enkripsi AES-256</span>
